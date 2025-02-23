@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   height="800px"
+   width="800px"
+   version="1.1"
+   id="Layer_1"
+   viewBox="0 0 485 485"
+   xml:space="preserve"
+   sodipodi:docname="hand_right.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs9" /><sodipodi:namedview
+   id="namedview7"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="1.09125"
+   inkscape:cx="400.45819"
+   inkscape:cy="400"
+   inkscape:window-width="2490"
+   inkscape:window-height="1376"
+   inkscape:window-x="70"
+   inkscape:window-y="27"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g4" />
+<g
+   id="g4"
+   transform="matrix(-1,0,0,1,485,0)">
+	<path
+   d="m 382.5,69.429 c -7.441,0 -14.5,1.646 -20.852,4.573 -4.309,-23.218 -24.7,-40.859 -49.148,-40.859 -7.68,0 -14.958,1.744 -21.467,4.852 C 285.641,16.205 265.932,0 242.5,0 219.068,0 199.359,16.206 193.967,37.995 187.459,34.888 180.18,33.143 172.5,33.143 c -27.57,0 -50,22.43 -50,50 v 122.222 c -6.129,-2.686 -12.891,-4.187 -20,-4.187 -27.57,0 -50,22.43 -50,50 V 354 c 0,72.233 58.766,131 131,131 h 118 c 72.233,0 131,-58.767 131,-131 V 119.429 c 0,-27.571 -22.43,-50 -50,-50 z M 402.5,354 c 0,55.691 -45.309,101 -101,101 h -118 c -55.691,0 -101,-45.309 -101,-101 V 251.178 c 0,-11.028 8.972,-20 20,-20 11.028,0 20,8.972 20,20 v 80 h 30 V 83.143 c 0,-11.028 8.972,-20 20,-20 11.028,0 20,8.972 20,20 v 158.035 h 30 V 50 c 0,-11.028 8.972,-20 20,-20 11.028,0 20,8.972 20,20 v 191.178 h 30 V 83.143 c 0,-11.028 8.972,-20 20,-20 11.028,0 20,8.972 20,20 v 158.035 h 30 v -121.75 c 0,-11.028 8.972,-20 20,-20 11.028,0 20,8.972 20,20 z"
+   id="path2"
+   style="fill:#ffff00" />
+</g>
+</svg>
