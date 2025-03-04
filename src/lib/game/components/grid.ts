@@ -1,6 +1,7 @@
 import p5 from 'p5';
 import _ from 'lodash';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+import { Selectable } from './selectable';
 
 export class Grid {
 	p5: p5;
@@ -9,8 +10,9 @@ export class Grid {
 	gridSize = 0.25;
 	cols: number;
 	rows: number;
-	squares: {id: string, x: number; y: number; width: number; height: number, image: any }[] = [];
-	randomSquares: {id: string, x: number; y: number; width: number; height: number, image: any }[] = [];
+	squares: { id: string; x: number; y: number; width: number; height: number; image: any }[] = [];
+	// randomSquares: {id: string, x: number; y: number; width: number; height: number, image: any }[] = [];
+	selectables: Selectable[] = [];
 	constructor(p5: p5, pnjs: string[]) {
 		console.log('Grid');
 		this.p5 = p5;
@@ -27,8 +29,10 @@ export class Grid {
 			let image = this.p5.loadImage(this.pnjs[i]);
 			this.images.push(image);
 		}
-        this.squares = this.getSquares();
-        this.randomSquares = this.getRandSquares(4);
+		this.squares = this.getSquares();
+		this.selectables = this.getRandSquares(4);
+		console.log(this.selectables);
+		// this.randomSquares = this.getRandSquares(4);
 	}
 
 	getSquares() {
@@ -37,14 +41,14 @@ export class Grid {
 			for (let j = 0; j < this.rows; j++) {
 				const x = i * (this.p5.windowWidth * this.gridSize);
 				const y = j * (this.p5.windowHeight * this.gridSize);
-                squares.push({
-                    id: uuidv4(),
-                    x,
-                    y,
-                    width: this.p5.windowWidth * this.gridSize,
-                    height: this.p5.windowHeight * this.gridSize,
-                    image: this.images[(i * this.rows + j) % this.images.length]
-                });
+				squares.push({
+					id: uuidv4(),
+					x,
+					y,
+					width: this.p5.windowWidth * this.gridSize,
+					height: this.p5.windowHeight * this.gridSize,
+					image: this.images[(i * this.rows + j) % this.images.length]
+				});
 			}
 		}
 		return squares;
@@ -91,30 +95,46 @@ export class Grid {
 
 	getRandSquares(max: number) {
 		let shuffled = this.squares.sort(() => 0.5 - Math.random());
-        let sliced = shuffled.slice(0, max);
-        sliced[1].image = sliced[0].image;
-        sliced[1].id = sliced[0].id;
-        return sliced;
+		let sliced = shuffled.slice(0, max);
+		sliced[1].image = sliced[0].image;
+		sliced[1].id = sliced[0].id;
+		let newSelectables: Selectable[] = [];
+		for (let i = 0; i < sliced.length; i++) {
+			const square = sliced[i];
+			let selectable = new Selectable(
+				this.p5,
+				square.id,
+				square.image,
+				square.x,
+				square.y,
+				square.width,
+				square.height
+			);
+			selectable.animateUp();
+			newSelectables.push(selectable);
+			selectable.setUp();
+		}
+		return newSelectables;
 	}
 
-	drawRandSquares() {
+	drawSelectables() {
 		this.p5.push();
 		this.p5.noFill();
 		this.p5.stroke(255);
 		this.p5.strokeWeight(1);
-		for (let i = 0; i < this.randomSquares.length; i++) {
-			const square = this.randomSquares[i];
-			this.p5.rect(square.x, square.y, square.width, square.height);
+		for (let i = 0; i < this.selectables.length; i++) {
+			const selectable = this.selectables[i];
+			selectable.draw();
 		}
 		this.p5.pop();
 	}
 
 	shuffleSqaures() {
-		this.randomSquares = this.getRandSquares(4);
+		this.selectables = this.getRandSquares(4);
 	}
 
 	draw() {
-		this.drawRandSquares();
+		this.drawSelectables();
 	}
 
 	windowResized() {

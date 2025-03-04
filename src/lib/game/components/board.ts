@@ -14,12 +14,13 @@ export class Board {
 		this.grid = new Grid(this.p5, pnjs);
 	}
 
-    preload() {
-        this.grid.preload();
-    }
+	preload() {
+		this.grid.preload();
+	}
 
 	setUp() {
 		this.grid.setUp();
+		console.log("Board setup")
 	}
 
 	handInSquare() {
@@ -27,37 +28,33 @@ export class Board {
 			const pose = this.aiBody.poses[0];
 			const leftWrist = pose.left_wrist;
 			const rightWrist = pose.right_wrist;
-			const squares = this.grid.randomSquares;
-			for (let i = 0; i < squares.length; i++) {
-				const square = squares[i];
+			for (let i = 0; i < this.grid.selectables.length; i++) {
+				const selectable = this.grid.selectables[i];
 				if (
-					leftWrist.x > square.x &&
-					leftWrist.x < square.x + square.width &&
-					leftWrist.y > square.y &&
-					leftWrist.y < square.y + square.height
+					leftWrist.x > selectable.x &&
+					leftWrist.x < selectable.x + selectable.width &&
+					leftWrist.y > selectable.y &&
+					leftWrist.y < selectable.y + selectable.height
 				) {
-					this.p5.fill(255, 0, 0);
-					// this.p5.rect(square.x, square.y, square.width, square.height);
-                    this.p5.image(square.image, square.x, square.y, square.width, square.height);
+					this.grid.selectables[i].selected = true;
+					this.grid.selectables[i].draw();
 				} else {
 					if (
-						rightWrist.x > square.x &&
-						rightWrist.x < square.x + square.width &&
-						rightWrist.y > square.y &&
-						rightWrist.y < square.y + square.height
+						rightWrist.x > selectable.x &&
+						rightWrist.x < selectable.x + selectable.width &&
+						rightWrist.y > selectable.y &&
+						rightWrist.y < selectable.y + selectable.height
 					) {
-						this.p5.fill(0, 255, 0);
-						// this.p5.rect(square.x, square.y, square.width, square.height);
-                        this.p5.image(square.image, square.x, square.y, square.width, square.height);
+						this.grid.selectables[i].selected = true;
+						this.grid.selectables[i].draw();
 					} else {
-						this.p5.fill(255);
-						// this.p5.rect(square.x, square.y, square.width, square.height);
-                        this.p5.image(square.image, square.x, square.y, square.width, square.height);
+						this.grid.selectables[i].selected = false;
+						this.grid.selectables[i].draw();
 					}
 				}
 			}
 		} else {
-			this.grid.draw();
+			// this.grid.draw();
 		}
 	}
 

@@ -3,30 +3,30 @@ import * as ml5 from 'ml5';
 
 export class AiBody {
 	p5: any;
-	debug: boolean = true;
+	debug: boolean;
 	video: any;
 	bodyPose: any;
 	poses: any = [];
 	connections: any = [];
 	loaded: boolean = false;
 	onLoad: Function = () => {};
-	constructor(p5: p5, onLoad: Function) {
+	constructor(p5: p5, onLoad: Function, debug: boolean = false) {
+		this.debug = debug;
 		this.onLoad = onLoad;
 		this.p5 = p5;
 	}
 
 	async setUp() {
-        
 		await this.preload();
 		this.connections = this.bodyPose.getSkeleton();
-        this.video = this.p5.createCapture(this.p5.VIDEO, { flipped: true });
+		this.video = this.p5.createCapture(this.p5.VIDEO, { flipped: true });
 		this.video.size(this.p5.windowWidth, this.p5.windowHeight);
 		this.video.hide();
 		this.bodyPose.detectStart(this.video, this.gotPoses.bind(this));
 		this.onLoad();
 	}
 
-    keyPressed(key: string) {
+	keyPressed(key: string) {
 		if (key === 'p') {
 			console.log(this.poses);
 		}
@@ -60,9 +60,9 @@ export class AiBody {
 		this.poses = results;
 	}
 
-    hasPoses() {
-        return this.poses.length > 0;
-    }
+	hasPoses() {
+		return this.poses.length > 0;
+	}
 
 	drawSkeleton() {
 		// Draw the skeleton connections
@@ -99,13 +99,16 @@ export class AiBody {
 		}
 	}
 
-    drawVideo() {
-        this.p5.image(this.video, 0, 0, this.p5.windowWidth, this.p5.windowHeight);
-    }
+	drawVideo() {
+		this.p5.image(this.video, 0, 0, this.p5.windowWidth, this.p5.windowHeight);
+	}
 
-    drawAll() {
-        this.drawVideo();
-        this.drawSkeleton();
-        this.drawKeypoints();
-    }
+	drawAll(debug: boolean = false) {
+		console.log(debug);
+		if (debug) {
+			this.drawVideo();
+			this.drawSkeleton();
+			this.drawKeypoints();
+		}
+	}
 }

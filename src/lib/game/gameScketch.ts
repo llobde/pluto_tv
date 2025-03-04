@@ -7,7 +7,7 @@ import { Board } from './components/board';
 
 export class GameSketch {
 	p5: any;
-	debug: boolean = true;
+	debug: boolean = false;
 	loaded: boolean = false;
 	aiBody!: AiBody;
 	handsPointer!: HandsPointer;
@@ -17,7 +17,7 @@ export class GameSketch {
 	hand_r: any;
 	pnjs: any[] = [];
 
-	constructor(onLoad: Function, hand_l: any, hand_r: any,pnjs: any, debug: boolean = true) {
+	constructor(onLoad: Function, hand_l: any, hand_r: any, pnjs: any, debug: boolean) {
 		this.hand_l = hand_l;
 		this.hand_r = hand_r;
 		this.pnjs = pnjs;
@@ -27,7 +27,7 @@ export class GameSketch {
 	}
 	sketch(p: p5) {
 		this.p5 = p;
-		this.aiBody = new AiBody(this.p5, this.onLoad);
+		this.aiBody = new AiBody(this.p5, this.onLoad, this.debug);
 		this.handsPointer = new HandsPointer(this.p5, this.aiBody, this.hand_l, this.hand_r);
 		this.board = new Board(this.p5, this.aiBody, this.pnjs);
 
@@ -60,10 +60,10 @@ export class GameSketch {
 	}
 
 	async setUp() {
-		console.log('setup');
 		this.p5.createCanvas(this.p5.windowWidth, this.p5.windowHeight);
 		this.p5.angleMode(this.p5.DEGREES);
 		this.p5.background(0);
+		this.board.setUp();
 		await this.aiBody.setUp();
 		this.loaded = true;
 		this.onLoad();
@@ -73,9 +73,9 @@ export class GameSketch {
 		this.p5.background(0);
 		if (this.loaded) {
 			if (this.debug) {
-				this.aiBody.drawAll();
-				this.board.draw();
+				this.aiBody.drawAll(this.debug);
 			}
+			this.board.draw();
 			this.handsPointer.draw();
 		}
 	}
