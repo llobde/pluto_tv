@@ -23,6 +23,7 @@
 	import vivir from '$lib/assets/series/vivir.png';
 	import who from '$lib/assets/series/who.png';
 	import yu from '$lib/assets/series/yu.png';
+	import Counter from '$lib/components/Counter.svelte';
 	onMount(async () => {
 		const pacmanGame = await import('$lib/pacman/pacman');
 		let addTo = document.getElementById('game');
@@ -63,5 +64,9 @@
 		await pacManGame.init();
 	});
 </script>
+
+<section class="pointer-events-none fixed inset-0 z-50">
+	<!-- <Counter max={6} /> -->
+</section>
 
 <section id="game"></section>

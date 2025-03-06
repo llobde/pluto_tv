@@ -61,7 +61,6 @@ export class PacmanBoard {
 
 	drawDebugGrid() {
 		const graphics = new PIXI.Graphics();
-		
 
 		for (let x = 0; x <= this.width; x += this.tileSize) {
 			graphics.moveTo(x, 0);
@@ -78,13 +77,14 @@ export class PacmanBoard {
 	}
 
 	getPacmanInitialPosition() {
-		// Set initial position of Pacman randomly in a path
+		// Get initial position of Pacman randomly in a path
 		let pacmanPosition: { x: number; y: number } | null = null;
 		while (!pacmanPosition) {
 			let x = Math.floor(Math.random() * this.cols);
 			let y = Math.floor(Math.random() * this.rows);
 			if (this.maze[y][x] === 0) {
-				pacmanPosition = { x: x * this.tileSize, y: y * this.tileSize };
+				let position = this.getTileCenterPosition(x, y);
+				pacmanPosition = position;
 			}
 		}
 		console.log(`Pacman initial position: (${pacmanPosition.x}, ${pacmanPosition.y})`);
@@ -106,7 +106,10 @@ export class PacmanBoard {
 					Math.pow(y - pacmanInitialPosition.y / this.tileSize, 2)
 			);
 			if (this.maze[y][x] === 0 && distanceToPacman >= safeTilesToPositionGhosts) {
-				ghostPositions.push({ x: x * this.tileSize, y: y * this.tileSize });
+				ghostPositions.push({
+					x: x * this.tileSize,
+					y: y * this.tileSize
+				});
 			}
 		}
 		return ghostPositions;
@@ -314,12 +317,20 @@ export class PacmanBoard {
 		return laberinto;
 	}
 
+	isWall(x: number, y: number): boolean {
+		return this.maze[y] && this.maze[y][x] === 1;
+	}
+
 	addWall(wall: Wall) {
 		this.walls.push(wall);
 	}
 
 	isPath(x: number, y: number) {
-		return this.maze[y][x] === 0;
+		try {
+			return this.maze[y][x] === 0;
+		} catch (error) {
+			return false;
+		}
 	}
 
 	connectWalls() {
@@ -388,6 +399,30 @@ export class PacmanBoard {
 					let wall = new Wall(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
 					this.addWall(wall);
 					this.app.stage.addChild(wall);
+				}
+			}
+		}
+	}
+
+	getTilePosition(x: number, y: number) {
+		return { x: x * this.tileSize, y: y * this.tileSize };
+	}
+
+	getTileCenterPosition(x: number, y: number) {
+		return { x: x * this.tileSize + this.tileSize / 2, y: y * this.tileSize + this.tileSize / 2 };
+	}
+
+	drawTilesPositions() {
+		for (let y = 0; y < this.maze.length; y++) {
+			for (let x = 0; x < this.maze[y].length; x++) {
+				if (this.maze[y][x] === 0) {
+					let dot = new PIXI.Graphics();
+					dot.circle(0, 0, this.tileSize / 12);
+					dot.fill(0xffffff);
+					this.getTileCenterPosition(x, y);
+					dot.x = x * this.tileSize + this.tileSize / 2;
+					dot.y = y * this.tileSize + this.tileSize / 2;
+					this.app.stage.addChild(dot);
 				}
 			}
 		}

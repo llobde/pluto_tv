@@ -22,17 +22,14 @@ export class Ghosts {
 	async init() {
 		// const ghostTexture = await PIXI.Assets.load(texturePath);
 		let textureKeys: string[] = Object.keys(this.texturesPaths);
-        textureKeys = textureKeys.sort(() => Math.random() - 0.5);
+		textureKeys = textureKeys.sort(() => Math.random() - 0.5);
 		let ghostsPositions = this.board.ghostsInitialPositions;
 		for (let i = 0; i < this.numGhosts; i++) {
-            const ghostTexture = await PIXI.Assets.load(this.texturesPaths[textureKeys[i]]);
-			const ghost = new Ghost(
-				this.app,
-				ghostTexture,
-				ghostsPositions[i].x,
-				ghostsPositions[i].y,
-				1
-			);
+			const ghostTexture = await PIXI.Assets.load(this.texturesPaths[textureKeys[i]]);
+			let ghostsInitialPosition = this.board.ghostsInitialPositions[i];
+			ghostsInitialPosition.x = ghostsInitialPosition.x + this.board.tileSize / 2;
+			ghostsInitialPosition.y = ghostsInitialPosition.y + this.board.tileSize / 2;
+			const ghost = new Ghost(this.app, ghostTexture, ghostsInitialPosition, this.board, 5);
 			this.ghosts.push(ghost);
 			this.app.stage.addChild(ghost.sprite);
 		}

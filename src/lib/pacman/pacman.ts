@@ -14,7 +14,7 @@ export class PacMan {
 		[key: string]: string;
 	};
 	app: PIXI.Application;
-	numGhosts: number = 4;
+	numGhosts: number = 1;
 	constructor(
 		appendTo: HTMLElement,
 		assets: { [key: string]: string },
@@ -37,11 +37,12 @@ export class PacMan {
 		// Crear Laberinto (paredes)
 		const board = new PacmanBoard(this.app, window.innerWidth, window.innerHeight);
 		board.connectWalls();
+		board.drawTilesPositions();
 		// board.drawWalls();
 
 		// Crear puntos
-		const dots = new Dots(this.app, board);
-		dots.init();
+		// const dots = new Dots(this.app, board);
+		// dots.init();
 
 		// Crear Pac-Man
 		let pacmanTExture = await PIXI.Assets.load(this.assets['pacman']);
@@ -55,6 +56,7 @@ export class PacMan {
 		// Movimiento y colisión
 		const gameLoop = (time: any) => {
 			pacman.update(time.deltaTime);
+			ghosts.update(time.deltaTime);	
 		};
 
 		this.app.ticker.add(gameLoop.bind(this));
