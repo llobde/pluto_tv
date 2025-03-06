@@ -1,20 +1,24 @@
 import * as PIXI from 'pixi.js';
-import type { PacmanBoard } from './board';
+import type { PacmanBoard, Tile } from './board';
 import { Ghost } from '../elements/ghost';
+import type { MrPacman } from '../elements/mr_pacman';
 export class Ghosts {
 	app: PIXI.Application;
 	board: PacmanBoard;
+	mrPackman: MrPacman;
 	ghosts: Ghost[];
 	numGhosts: number;
 	texturesPaths: { [key: string]: string };
 	constructor(
 		app: PIXI.Application,
 		board: PacmanBoard,
+		mrPackman: MrPacman,
 		numGhosts: number,
 		texturesPaths: { [key: string]: string }
 	) {
 		this.app = app;
 		this.board = board;
+		this.mrPackman = mrPackman;
 		this.numGhosts = numGhosts;
 		this.ghosts = [];
 		this.texturesPaths = texturesPaths;
@@ -29,7 +33,14 @@ export class Ghosts {
 			let ghostsInitialPosition = this.board.ghostsInitialPositions[i];
 			ghostsInitialPosition.x = ghostsInitialPosition.x + this.board.tileSize / 2;
 			ghostsInitialPosition.y = ghostsInitialPosition.y + this.board.tileSize / 2;
-			const ghost = new Ghost(this.app, ghostTexture, ghostsInitialPosition, this.board, 5);
+			const ghost = new Ghost(
+				this.app,
+				ghostTexture,
+				ghostsInitialPosition,
+				this.board,
+				this.mrPackman,
+				5
+			);
 			this.ghosts.push(ghost);
 			this.app.stage.addChild(ghost.sprite);
 		}

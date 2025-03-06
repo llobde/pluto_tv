@@ -65,8 +65,8 @@
 	});
 </script>
 
-<section class="pointer-events-none fixed inset-0 z-50">
-	<!-- <Counter max={6} /> -->
-</section>
+<!-- <section class="pointer-events-none fixed inset-0 z-50">
+	<Counter max={6} />
+</section> -->
 
 <section id="game"></section>
