@@ -36,9 +36,6 @@ export class PacMan {
 
 		// Crear Laberinto (paredes)
 		const board = new PacmanBoard(this.app, window.innerWidth, window.innerHeight);
-		// board.connectWalls();
-		// board.drawTilesPositions();
-		// board.drawWalls();
 
 		// Crear puntos
 		// const dots = new Dots(this.app, board);
@@ -47,11 +44,10 @@ export class PacMan {
 		// Crear Pac-Man
 		let pacmanTExture = await PIXI.Assets.load(this.assets['pacman']);
 		const pacman = new MrPacman(this.app, pacmanTExture, board);
-		// this.app.stage.addChild(pacman);
 
 		// Crear Fantasmas
-		// const ghosts = new Ghosts(this.app, board, pacman, this.numGhosts, this.series);
-		// await ghosts.init();
+		const ghosts = new Ghosts(this.app, board, pacman, this.numGhosts, this.series);
+		await ghosts.init();
 
 		// Movimiento y colisión
 		const gameLoop = (time: any) => {

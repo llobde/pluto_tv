@@ -49,19 +49,56 @@ export class MovementController {
 		return direction.x === this.direction.x && direction.y === this.direction.y;
 	}
 
+	stop() {
+		this.velocity = { x: 0, y: 0 };
+		this.prevDirection = { x: 0, y: 0 };
+		this.direction = { x: 0, y: 0 };
+	}
+
+	isStopped() {
+		return this.velocity.x === 0 && this.velocity.y === 0;
+	}
+
+	notInDirection() {
+		return this.direction.x === 0 && this.direction.y === 0;
+	}
+
+	areOppositeDirections(direction1: Direction, direction2: Direction): boolean {
+		return direction1.x === -direction2.x && direction1.y === -direction2.y;
+	}
+
+	formRightAngle(direction1: Direction, direction2: Direction): boolean {
+		if (direction1.x === 0 && direction2.x === 0) return false;
+		if (direction1.y === 0 && direction2.y === 0) return false;
+		return (
+			(direction1.x === 0 &&
+				Math.abs(direction1.y) === 1 &&
+				Math.abs(direction2.x) === 1 &&
+				direction2.y === 0) ||
+			(direction1.y === 0 &&
+				Math.abs(direction1.x) === 1 &&
+				Math.abs(direction2.y) === 1 &&
+				direction2.x === 0)
+		);
+	}
+
 	private onKeyDown(event: KeyboardEvent): void {
 		let newDirection = this.getDirectionOnKeyDown(event);
 		if (newDirection === null) return;
-		if (this.canMove(this.inTile, newDirection) && !this.sameDirection(newDirection)) {
-			this.bufferChangePosition = true;
+		// console.log('New direction', newDirection);
+		// console.log('Same direction', this.sameDirection(newDirection));
+		if (this.canChangeDirection(this.inTile, newDirection) && !this.sameDirection(newDirection)) {
+			if (this.formRightAngle(newDirection, this.direction)) {
+				this.activateBuffer();
+			}
 			this.prevDirection = this.direction;
 			this.direction = newDirection;
 			this.targetTile = this.board.getLastTilePathInDirection(this.inTile, this.direction)!;
 			this.setTargetTile(this.targetTile);
 			this.velocity.x = newDirection.x * this.speed;
 			this.velocity.y = newDirection.y * this.speed;
-			console.log('Velocity', this.velocity);
-			console.log('Precious velocity', this.previousVelocity);
+			// console.log('Velocity', this.velocity);
+			// console.log('Precious velocity', this.previousVelocity);
 		}
 	}
 
@@ -87,12 +124,20 @@ export class MovementController {
 		return false;
 	}
 
+	private canChangeDirection(inTile: Tile, toDirection: Direction): boolean {
+		let nextTile: Tile | null = this.board.getAdjacentTileInDirection(inTile, toDirection);
+		if (!nextTile) return false;
+		if (nextTile.isWall()) return false;
+		if (this.formRightAngle(toDirection, this.direction)) {
+			if (!this.inTile.isPointInsideActionSquare(this.position)) return false;
+		}
+		return true;
+	}
+
 	private canMove(inTile: Tile, toDirection: Direction): boolean {
 		let nextTile: Tile | null = this.board.getAdjacentTileInDirection(inTile, toDirection);
 		if (!nextTile) return false;
-		if (nextTile.isWall() && this.isInMiddleOfTile()) {
-			return false;
-		}
+		if (nextTile.isWall() && this.isInMiddleOfTile()) return false;
 		return true;
 	}
 
@@ -102,28 +147,64 @@ export class MovementController {
 		);
 	}
 
+	private activateBuffer() {
+		this.bufferChangePosition = true;
+	}
+
+	private desactivateBuffer() {
+		this.bufferChangePosition = false;
+	}
+
+	private getPositionRelativeToTile(): { x: number; y: number } {
+		const tilePosition = this.inTile.getPositionInPixels();
+		return {
+			x: this.position.x - tilePosition.x,
+			y: this.position.y - tilePosition.y
+		};
+	}
+
+	private inDistanceToChangeDirection(limit: number = 1): boolean {
+		const positionRelativeToTile = this.getPositionRelativeToTile();
+		const distance = Math.sqrt(
+			Math.pow(positionRelativeToTile.x, 2) + Math.pow(positionRelativeToTile.y, 2)
+		);
+		if (distance < limit) {
+		} else {
+		}
+		return distance < 1;
+	}
+
+	private isPastTilePosition(): boolean {
+		const tilePosition = this.inTile.getPositionInPixels();
+		if (this.direction.x === 1 && this.position.x > tilePosition.x) return true;
+		if (this.direction.x === -1 && this.position.x < tilePosition.x) return true;
+		if (this.direction.y === 1 && this.position.y > tilePosition.y) return true;
+		if (this.direction.y === -1 && this.position.y < tilePosition.y) return true;
+		return false;
+	}
+
+	private isPrevTilePosition(): boolean {
+		const tilePosition = this.inTile.getPositionInPixels();
+		if (this.direction.x === 1 && this.position.x < tilePosition.x) return true;
+		if (this.direction.x === -1 && this.position.x > tilePosition.x) return true;
+		if (this.direction.y === 1 && this.position.y < tilePosition.y) return true;
+		if (this.direction.y === -1 && this.position.y > tilePosition.y) return true;
+		return false;
+	}
+
 	move(delta: number): { x: number; y: number } {
 		let inTile = this.board.getTileFromPixel(this.position);
 		if (inTile) {
 			this.setInTile(inTile, false);
 			if (this.canMove(this.inTile, this.direction)) {
-				// if (this.inBuffer) {
-				// 	console.log('In buffer');
-				// 	if (!this.isInMiddleOfTile()) {
-				//         console.log('Previous velocity', this.previousVelocity);
-				// 		this.position.x += this.previousVelocity.x * delta;
-				// 		this.position.y += this.previousVelocity.y * delta;
-				// 	} else {
-				// 		this.bufferChangePosition = false;
-				// 		this.position.x += this.velocity.x * delta;
-				// 		this.position.y += this.velocity.y * delta;
-				// 	}
-				// } else {
-				// 	this.position.x += this.velocity.x * delta;
-				// 	this.position.y += this.velocity.y * delta;
-				// }
-				this.position.x += this.velocity.x * delta;
-				this.position.y += this.velocity.y * delta;
+				if (this.inBuffer) {
+					this.position.x = this.inTile.getPositionInPixels().x;
+					this.position.y = this.inTile.getPositionInPixels().y;
+					this.desactivateBuffer();
+				} else {
+					this.position.x += this.velocity.x * delta;
+					this.position.y += this.velocity.y * delta;
+				}
 			}
 		}
 		return { x: this.position.x, y: this.position.y };

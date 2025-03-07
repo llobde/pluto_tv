@@ -23,6 +23,8 @@ export class Tile {
 	x: number;
 	y: number;
 	tileSize: number;
+	actionSquare: number;
+	actionSquarePercentage: number = 0.8;
 	simbol: string;
 	end: boolean = false;
 	constructor(x: number, y: number, tileSize: number, simbol: string, end: boolean = false) {
@@ -30,6 +32,7 @@ export class Tile {
 		this.x = x;
 		this.y = y;
 		this.tileSize = tileSize;
+		this.actionSquare = tileSize * this.actionSquarePercentage;
 		this.end = end;
 	}
 
@@ -76,6 +79,48 @@ export class Tile {
 			x: this.x * this.tileSize + this.tileSize / 2,
 			y: this.y * this.tileSize + this.tileSize / 2
 		};
+	}
+
+	getActionSquarePositionInPixels(): { x: number; y: number } {
+		return {
+			x: this.x * this.tileSize + this.tileSize / 2 - this.actionSquare / 2,
+			y: this.y * this.tileSize + this.tileSize / 2 - this.actionSquare / 2
+		};
+	}
+
+	pointIsInMiddleOfTile(
+		direction: { x: number; y: number },
+		position: { x: number; y: number }
+	): boolean {
+		if (direction.x == 1) {
+			if (position.x > this.getPositionInPixels().x) {
+				return true;
+			}
+		} else if (direction.x == -1) {
+			if (position.x < this.getPositionInPixels().x) {
+				return true;
+			}
+		}
+		if (direction.y == 1) {
+			if (position.y > this.getPositionInPixels().y) {
+				return true;
+			}
+		} else if (direction.y == -1) {
+			if (position.y < this.getPositionInPixels().y) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	isPointInsideActionSquare(point: { x: number; y: number }): boolean {
+		const actionSquarePosition = this.getActionSquarePositionInPixels();
+		return (
+			point.x >= actionSquarePosition.x &&
+			point.x <= actionSquarePosition.x + this.actionSquare &&
+			point.y >= actionSquarePosition.y &&
+			point.y <= actionSquarePosition.y + this.actionSquare
+		);
 	}
 }
 
@@ -133,9 +178,10 @@ export class PacmanBoard {
 		this.dotsInitialPositions = this.getDotsPosition();
 		if (this.debug) {
 			this.drawDebugGrid();
+			// this.drawTilesPositions();
+			// this.drawActionSquares();
 		}
 		this.connectWalls();
-		this.drawTilesPositions();
 		console.log(this.maze);
 	}
 
@@ -517,6 +563,25 @@ export class PacmanBoard {
 					// dot.x = x * this.tileSize + this.tileSize / 2;
 					// dot.y = y * this.tileSize + this.tileSize / 2;
 					// this.app.stage.addChild(dot);
+				}
+			}
+		}
+	}
+
+	drawActionSquares() {
+		for (let y = 0; y < this.maze.length; y++) {
+			for (let x = 0; x < this.maze[y].length; x++) {
+				if (this.maze[y][x].isPath()) {
+					let actionSquarePosition = this.maze[y][x].getActionSquarePositionInPixels();
+					let actionSquare = new PIXI.Graphics();
+					actionSquare.rect(
+						actionSquarePosition.x,
+						actionSquarePosition.y,
+						this.maze[y][x].actionSquare,
+						this.maze[y][x].actionSquare
+					);
+					actionSquare.fill(0xff0000);
+					this.app.stage.addChild(actionSquare);
 				}
 			}
 		}
