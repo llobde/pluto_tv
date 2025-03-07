@@ -14,7 +14,7 @@ export class PacMan {
 		[key: string]: string;
 	};
 	app: PIXI.Application;
-	numGhosts: number = 1;
+	numGhosts: number = 7;
 	constructor(
 		appendTo: HTMLElement,
 		assets: { [key: string]: string },
@@ -35,7 +35,7 @@ export class PacMan {
 		this.appendTo.appendChild(this.app.canvas);
 
 		// Crear Laberinto (paredes)
-		const board = new PacmanBoard(this.app, window.innerWidth, window.innerHeight);
+		const board = new PacmanBoard(this.app, window.innerWidth, window.innerHeight, this.numGhosts);
 
 		// Crear puntos
 		// const dots = new Dots(this.app, board);

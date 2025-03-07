@@ -28,11 +28,12 @@ export class Ghosts {
 		let textureKeys: string[] = Object.keys(this.texturesPaths);
 		textureKeys = textureKeys.sort(() => Math.random() - 0.5);
 		let ghostsPositions = this.board.ghostsInitialPositions;
+        console.log('ghostsPositions', ghostsPositions);
 		for (let i = 0; i < this.numGhosts; i++) {
 			const ghostTexture = await PIXI.Assets.load(this.texturesPaths[textureKeys[i]]);
 			let ghostsInitialPosition = this.board.ghostsInitialPositions[i];
 
-			const ghost = new Ghost(
+			const ghost: Ghost | null = new Ghost(
 				this.app,
 				ghostTexture,
 				ghostsInitialPosition,
@@ -51,7 +52,8 @@ export class Ghosts {
 	ghostEaten(index: number) {
 		let ghost = this.ghosts[index];
 		this.app.stage.removeChild(ghost.sprite);
-		this.ghosts.splice(index, 1);
+		// this.ghosts[index] = null;
+		// this.ghosts.splice(index, 1);
 		console.log('ghost eaten');
 	}
 

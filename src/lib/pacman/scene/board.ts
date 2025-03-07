@@ -161,12 +161,14 @@ export class PacmanBoard {
 		app: PIXI.Application,
 		width: number = 800,
 		height: number = 600,
-		tileSize: number = 100
+		numGhosts: number = 4,
+		tileSize: number = 100,
 	) {
 		this.app = app;
 		this.tileSize = tileSize;
 		this.width = width;
 		this.height = height;
+		this.numghosts = numGhosts;
 		this.walls = [];
 		this.maze = this.generateSymmetricalPacmanMaze();
 		this.pacmanInitialPosition = this.getPacmanInitialPosition();
