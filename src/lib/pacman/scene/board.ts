@@ -178,7 +178,7 @@ export class PacmanBoard {
 		this.dotsInitialPositions = this.getDotsPosition();
 		if (this.debug) {
 			this.drawDebugGrid();
-			// this.drawTilesPositions();
+			this.drawTilesPositions();
 			// this.drawActionSquares();
 		}
 		this.connectWalls();
@@ -192,7 +192,7 @@ export class PacmanBoard {
 		let directions = [Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT];
 		for (let direction of directions) {
 			let adjacent = this.getAdjacentTileInDirection(tile, direction);
-			if (adjacent) {
+			if (adjacent && adjacent.isPath()) {
 				adjacents.push(adjacent);
 			}
 		}
@@ -230,6 +230,25 @@ export class PacmanBoard {
 			return this.maze[tileY][tileX];
 		}
 		return null;
+	}
+
+	getFurthestTileFrom(tile: Tile): Tile {
+		let furthestTile: Tile = tile;
+		let maxDistance = 0;
+
+		for (let y = 0; y < this.rows; y++) {
+			for (let x = 0; x < this.cols; x++) {
+				if (this.maze[y][x].isPath()) {
+					let distance = Math.sqrt(Math.pow(x - tile.x, 2) + Math.pow(y - tile.y, 2));
+					if (distance > maxDistance) {
+						maxDistance = distance;
+						furthestTile = this.maze[y][x];
+					}
+				}
+			}
+		}
+
+		return furthestTile;
 	}
 	// END UTILS
 
@@ -273,13 +292,22 @@ export class PacmanBoard {
 		while (ghostPositions.length < numGhosts) {
 			let x = Math.floor(Math.random() * this.cols);
 			let y = Math.floor(Math.random() * this.rows);
+			console.log(`Ghost initial tile position: (${x}, ${y})`);
 			let distanceToPacman = Math.sqrt(
-				Math.pow(x - pacmanInitialPosition.x / this.tileSize, 2) +
-					Math.pow(y - pacmanInitialPosition.y / this.tileSize, 2)
+				Math.pow(x - pacmanInitialPosition.x, 2) +
+				Math.pow(y - pacmanInitialPosition.y, 2)
 			);
 			if (this.maze[y][x].isPath() && distanceToPacman >= safeTilesToPositionGhosts) {
 				ghostPositions.push(new Tile(x, y, this.tileSize, symbolPath));
 			}
+			// let y = Math.floor(Math.random() * this.rows);
+			// let distanceToPacman = Math.sqrt(
+			// 	Math.pow(x - pacmanInitialPosition.x / this.tileSize, 2) +
+			// 		Math.pow(y - pacmanInitialPosition.y / this.tileSize, 2)
+			// );
+			// if (this.maze[y][x].isPath() && distanceToPacman >= safeTilesToPositionGhosts) {
+			// 	ghostPositions.push(new Tile(x, y, this.tileSize, symbolPath));
+			// }
 		}
 		return ghostPositions;
 	}

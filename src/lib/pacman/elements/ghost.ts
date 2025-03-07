@@ -11,6 +11,7 @@ export class Ghost {
 	mrPacman: MrPacman;
 	speed: number = 5;
 	initialTile: Tile;
+	onEat: Function;
 
 	constructor(
 		app: PIXI.Application,
@@ -18,7 +19,8 @@ export class Ghost {
 		initialTile: Tile,
 		board: PacmanBoard,
 		mrPackman: MrPacman,
-		speed: number
+		speed: number,
+		onEat: Function
 	) {
 		this.app = app;
 		this.board = board;
@@ -31,11 +33,16 @@ export class Ghost {
 		this.sprite.x = this.initialTile.getPositionInPixels().x;
 		this.sprite.y = this.initialTile.getPositionInPixels().y;
 		this.sprite.anchor.set(0.5);
+		this.onEat = onEat;
 		this.aiController = new GhostController(
 			this.initialTile,
 			this.board,
-			this.speed
+			this.speed,
+			() => {
+				this.onEat();
+			}
 		);
+		console.log('ghost initial tile', this.initialTile);
 	}
 
 	update(delta: number) {

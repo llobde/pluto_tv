@@ -26,6 +26,14 @@ export class MrPacman extends PIXI.Sprite {
 		this.app.stage.addChild(this);
 	}
 
+	get positionInPixels(): { x: number; y: number } {
+		return this.movementController.position;
+	}
+
+	get inTile(): Tile {
+		return this.movementController.inTile;
+	}
+
 	public update(delta: number): void {
 		let newPosition = this.movementController.move(delta);
 		this.x = newPosition.x;

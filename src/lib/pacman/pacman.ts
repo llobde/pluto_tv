@@ -52,7 +52,7 @@ export class PacMan {
 		// Movimiento y colisión
 		const gameLoop = (time: any) => {
 			pacman.update(time.deltaTime);
-			// ghosts.update(time.deltaTime);
+			ghosts.update(time.deltaTime);
 		};
 
 		this.app.ticker.add(gameLoop.bind(this));

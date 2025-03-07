@@ -7,9 +7,9 @@ export class MovementController {
 	private speed = 5;
 	private prevDirection: Direction = { x: 0, y: 0 };
 	private direction: Direction = { x: 0, y: 0 };
-	private inTile!: Tile;
+	inTile!: Tile;
 	private targetTile!: Tile;
-	private position!: { x: number; y: number };
+	position!: { x: number; y: number };
 	private targetPosition!: { x: number; y: number };
 	private board: PacmanBoard;
 	private bufferChangePosition = false;

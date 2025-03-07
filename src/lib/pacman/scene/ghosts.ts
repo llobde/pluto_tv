@@ -31,20 +31,30 @@ export class Ghosts {
 		for (let i = 0; i < this.numGhosts; i++) {
 			const ghostTexture = await PIXI.Assets.load(this.texturesPaths[textureKeys[i]]);
 			let ghostsInitialPosition = this.board.ghostsInitialPositions[i];
-			ghostsInitialPosition.x = ghostsInitialPosition.x + this.board.tileSize / 2;
-			ghostsInitialPosition.y = ghostsInitialPosition.y + this.board.tileSize / 2;
+
 			const ghost = new Ghost(
 				this.app,
 				ghostTexture,
 				ghostsInitialPosition,
 				this.board,
 				this.mrPackman,
-				5
+				5,
+				() => {
+					console.log('ghost eaten');
+					this.ghostEaten(i);
+				}
 			);
 			this.ghosts.push(ghost);
 			this.app.stage.addChild(ghost.sprite);
 		}
 	}
+	ghostEaten(index: number) {
+		let ghost = this.ghosts[index];
+		this.app.stage.removeChild(ghost.sprite);
+		this.ghosts.splice(index, 1);
+		console.log('ghost eaten');
+	}
+
 	update(delta: number) {
 		this.ghosts.forEach((ghost) => ghost.update(delta));
 	}
