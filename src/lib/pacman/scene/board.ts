@@ -145,9 +145,9 @@ export class PacmanBoard {
 	app: PIXI.Application;
 	maze: Tile[][] = [];
 	walls: Wall[];
-	wallFillColor: number = 0x0073ff; //0xffd900;
+	wallFillColor: number = 0xffd900; //0x0073ff; //0xffd900;
 	wallStrokeWidth: number = 4;
-	wallStrokeColor: number = 0x0073ff;
+	wallStrokeColor: number = 0xffd900; //0x0073ff;
 	cols!: number;
 	rows!: number;
 	pacmanInitialPosition: Tile;

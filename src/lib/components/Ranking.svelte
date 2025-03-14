@@ -1,13 +1,8 @@
 <script lang="ts">
+	import type { Users } from "$lib/front/users";
 	import Spacer from "./Spacer.svelte";
 
-	export let users: { name: string; points: number }[] = [
-		{ name: 'Emily Jones', points: 1234 },
-		{ name: 'David Lee', points: 987 },
-		{ name: 'Sophia Williams', points: 876 },
-		{ name: 'Michael Chen', points: 765 },
-		{ name: 'Mia Davis', points: 654 }
-	];
+	export let users: Users;
 </script>
 
 <div class="mx-auto max-w-lg overflow-hidden rounded-md shadow-md">
@@ -16,12 +11,12 @@
 	</div>
 	<Spacer height="sm"/>
 	<ul class="divide-y divide-gray-200 text-white">
-		{#each users as { name, points }, i}
+		{#each users.users as user, i}
 			<li class="flex items-center px-6 py-4">
 				<span class="mr-4 text-4xl font-medium ">{i + 1}.</span>
 				<div class="flex-1">
-					<h3 class="text-4xl font-medium ">{users[i].name}</h3>
-					<p class="text-2xl text-white">{users[i].points} points</p>
+					<h3 class="text-4xl font-medium ">{user.name}</h3>
+					<p class="text-2xl text-white">{user.points} points</p>
 				</div>
 			</li>
 		{/each}
