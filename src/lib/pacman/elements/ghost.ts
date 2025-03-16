@@ -28,21 +28,25 @@ export class Ghost {
 		this.initialTile = initialTile;
 		this.speed = speed;
 		this.sprite = new PIXI.Sprite(texture);
+		this.sprite.zIndex = 20;
 		this.sprite.width = 100;
 		this.sprite.height = 100;
 		this.sprite.x = this.initialTile.getPositionInPixels().x;
 		this.sprite.y = this.initialTile.getPositionInPixels().y;
 		this.sprite.anchor.set(0.5);
 		this.onEat = onEat;
-		this.aiController = new GhostController(
-			this.initialTile,
-			this.board,
-			this.speed,
-			() => {
-				this.onEat();
-			}
-		);
-		console.log('ghost initial tile', this.initialTile);
+		this.aiController = new GhostController(this.initialTile, this.board, this.speed, () => {
+			this.onEat();
+		});
+	}
+
+	kill() {
+		this.aiController.kill();
+		this.app.stage.removeChild(this.sprite);
+	}
+
+	isKilled() {
+		return this.aiController.isKilled();
 	}
 
 	update(delta: number) {

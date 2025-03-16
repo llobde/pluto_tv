@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import Logo from '$lib/components/Logo.svelte';
+	import Section from '$lib/components/Section.svelte';
 	import Spacer from '$lib/components/Spacer.svelte';
 	import { FrontApi } from '$lib/front/front_api';
 	import { User } from '$lib/front/user';
@@ -15,16 +16,17 @@
 		console.log(companyInput.value);
 		let newUser: User = new User(nameInput.value, '', companyInput.value);
 		searchState.users.addNewUser(newUser);
+        searchState.user = newUser;
 		console.log(searchState.users);
-		let api  = new FrontApi();
-        api.put(searchState.users);
+		let api = new FrontApi();
+		api.put(searchState.users);
 	};
 </script>
 
-<section class="flex h-screen w-screen flex-col items-center">
-	<div class="flex h-2/3 flex-col items-center justify-between bg-blue-500">
+<Section>
+	<div class="h-2/3 flex flex-col items-center justify-around">
 		<Logo />
-		<Spacer />
+		
 		<form class="w-full text-[#fff200]">
 			<div class="mb-4">
 				<!-- <label class="mb-2 block text-sm font-bold" for="name"> Nombre </label> -->
@@ -35,7 +37,7 @@
 					placeholder="Nombre"
 				/>
 			</div>
-			<Spacer />
+			<!-- <Spacer /> -->
 			<div class="mb-6">
 				<!-- <label class="mb-2 block text-sm font-bold" for="company"> Empresa </label> -->
 				<input
@@ -48,4 +50,4 @@
 		</form>
 		<Button text="SIGUIENTE" url="/reglas" preAction={addUser} />
 	</div>
-</section>
+</Section>

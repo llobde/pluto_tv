@@ -122,6 +122,10 @@ export class Tile {
 			point.y <= actionSquarePosition.y + this.actionSquare
 		);
 	}
+
+	samePosition(tile: Tile): boolean {
+		return this.x === tile.x && this.y === tile.y;
+	}
 }
 
 class Wall extends PIXI.Graphics {
@@ -154,7 +158,7 @@ export class PacmanBoard {
 	numghosts: number = 4;
 	safeTilesToPositionGhosts: number = 5;
 	ghostsInitialPositions: Tile[] = [];
-	dotsInitialPositions: { x: number; y: number }[] = [];
+	dotsInitialPositions: Tile[] = [];
 	debug: boolean = true;
 
 	constructor(
@@ -162,7 +166,7 @@ export class PacmanBoard {
 		width: number = 800,
 		height: number = 600,
 		numGhosts: number = 4,
-		tileSize: number = 100,
+		tileSize: number = 100
 	) {
 		this.app = app;
 		this.tileSize = tileSize;
@@ -180,7 +184,7 @@ export class PacmanBoard {
 		this.dotsInitialPositions = this.getDotsPosition();
 		if (this.debug) {
 			this.drawDebugGrid();
-			this.drawTilesPositions();
+			// this.drawTilesPositions();
 			// this.drawActionSquares();
 		}
 		this.connectWalls();
@@ -294,42 +298,32 @@ export class PacmanBoard {
 		while (ghostPositions.length < numGhosts) {
 			let x = Math.floor(Math.random() * this.cols);
 			let y = Math.floor(Math.random() * this.rows);
-			console.log(`Ghost initial tile position: (${x}, ${y})`);
+			// console.log(`Ghost initial tile position: (${x}, ${y})`);
 			let distanceToPacman = Math.sqrt(
-				Math.pow(x - pacmanInitialPosition.x, 2) +
-				Math.pow(y - pacmanInitialPosition.y, 2)
+				Math.pow(x - pacmanInitialPosition.x, 2) + Math.pow(y - pacmanInitialPosition.y, 2)
 			);
 			if (this.maze[y][x].isPath() && distanceToPacman >= safeTilesToPositionGhosts) {
 				ghostPositions.push(new Tile(x, y, this.tileSize, symbolPath));
 			}
-			// let y = Math.floor(Math.random() * this.rows);
-			// let distanceToPacman = Math.sqrt(
-			// 	Math.pow(x - pacmanInitialPosition.x / this.tileSize, 2) +
-			// 		Math.pow(y - pacmanInitialPosition.y / this.tileSize, 2)
-			// );
-			// if (this.maze[y][x].isPath() && distanceToPacman >= safeTilesToPositionGhosts) {
-			// 	ghostPositions.push(new Tile(x, y, this.tileSize, symbolPath));
-			// }
 		}
 		return ghostPositions;
 	}
 
 	getDotsPosition() {
-		const dots: { x: number; y: number }[] = [];
+		const dotsTiles: Tile[] = [];
 		for (let y = 0; y < this.rows; y++) {
 			for (let x = 0; x < this.cols; x++) {
 				if (this.maze[y][x].isPath()) {
-					const dotPosition = { x: x * this.tileSize, y: y * this.tileSize };
-					if (
-						dotPosition.x !== this.pacmanInitialPosition.x ||
-						dotPosition.y !== this.pacmanInitialPosition.y
-					) {
-						dots.push(dotPosition);
+					let tile = new Tile(x, y, this.tileSize, symbolPath);
+					if (tile.samePosition(this.pacmanInitialPosition)) {
+						console.log('Pacman initial tile is a dot tile');
+					} else {
+						dotsTiles.push(tile);
 					}
 				}
 			}
 		}
-		return dots;
+		return dotsTiles;
 	}
 
 	generateSymmetricalPacmanMaze(): Tile[][] {

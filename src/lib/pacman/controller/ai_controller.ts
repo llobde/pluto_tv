@@ -2,7 +2,8 @@ enum Mode {
 	CHASE,
 	SCATTER,
 	FRIGHTENED,
-	EATEN
+	EATEN,
+	KILLED
 }
 
 import type { MrPacman } from '../elements/mr_pacman';
@@ -27,7 +28,7 @@ export class GhostController {
 	onEaten: Function;
 
 	constructor(startPosition: Tile, board: PacmanBoard, speed: number, onEaten: Function) {
-        this.onEaten = onEaten;
+		this.onEaten = onEaten;
 		this.intile = startPosition;
 		this.position = startPosition.getPositionInPixels();
 		this.targetTile = startPosition;
@@ -59,10 +60,12 @@ export class GhostController {
 	}
 
 	update(delta: number, mrPacman: MrPacman) {
+		if (this.mode === Mode.KILLED) {
+			return;
+		}
 		if (this.intile === mrPacman.inTile) {
-			console.log('Pacman and ghost are in the same tile');
-            this.onEaten();
-			this.mode = Mode.EATEN;
+			this.onEaten();
+			this.mode = Mode.KILLED;
 			return this.position;
 		}
 		switch (this.mode) {
@@ -98,5 +101,13 @@ export class GhostController {
 				return this.position;
 				break;
 		}
+	}
+
+	isKilled() {
+		return this.mode === Mode.KILLED;
+	}
+
+	kill() {
+		this.mode = Mode.KILLED;
 	}
 }

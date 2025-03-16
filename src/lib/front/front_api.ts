@@ -39,7 +39,7 @@ export class FrontApi {
 
 	async put(users: Users): Promise<Response<any>> {
 		let data = users.toJson();
-		const response = await this.api.put(`${this.apiEndpoint}/write`, data);
+		const response = await this.api.post(`${this.apiEndpoint}/write`, data);
 		return {
 			responseData: response.data
 		};

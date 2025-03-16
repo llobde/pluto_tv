@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { searchState } from '$lib/states/state.svelte';
 	import { onMount } from 'svelte';
+	// Assets
 	import MrPacman from '$lib/assets/game/pacman.png';
 	import Ghost from '$lib/assets/game/ghost.png';
 	// Series
@@ -23,8 +25,13 @@
 	import vivir from '$lib/assets/series/vivir.png';
 	import who from '$lib/assets/series/who.png';
 	import yu from '$lib/assets/series/yu.png';
-	import Counter from '$lib/components/Counter.svelte';
+	import dot from '$lib/assets/game/pacman_dot.png';
+
+	let tileSize: number = 100;
+	let gameSize: number;
+
 	onMount(async () => {
+		gameSize = canvasSize();
 		const pacmanGame = await import('$lib/pacman/pacman');
 		let addTo = document.getElementById('game');
 		if (!addTo) {
@@ -34,9 +41,13 @@
 		}
 		let pacManGame = new pacmanGame.PacMan(
 			addTo,
+			gameSize,
+			gameSize,
+			tileSize,
 			{
 				pacman: MrPacman,
-				ghost: Ghost
+				ghost: Ghost,
+				dot: dot
 			},
 			{
 				alaska,
@@ -59,14 +70,31 @@
 				vivir,
 				who,
 				yu
+			},
+			() => {
+				searchState.user.points += 10;
+			},
+			() => {
+				searchState.user.points += 100;
+			},
+			() => {
+				console.log('Game Over');
+				console.log(searchState.user);
 			}
 		);
 		await pacManGame.init();
 	});
+
+	function canvasSize() {
+		const size = Math.min(window.innerHeight, window.innerWidth);
+		return size;
+	}
 </script>
 
 <!-- <section class="pointer-events-none fixed inset-0 z-50">
 	<Counter max={6} />
 </section> -->
 
-<section id="game"></section>
+<div class="flex flex-col items-center justify-center h-screen">
+	<section id="game" class="w-[{gameSize}px] h-[{gameSize}px]"></section>
+</div>

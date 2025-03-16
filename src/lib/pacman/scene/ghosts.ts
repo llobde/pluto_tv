@@ -9,12 +9,14 @@ export class Ghosts {
 	ghosts: Ghost[];
 	numGhosts: number;
 	texturesPaths: { [key: string]: string };
+	eatAGhotst: Function;
 	constructor(
 		app: PIXI.Application,
 		board: PacmanBoard,
 		mrPackman: MrPacman,
 		numGhosts: number,
-		texturesPaths: { [key: string]: string }
+		texturesPaths: { [key: string]: string },
+		eatAGhotst: Function
 	) {
 		this.app = app;
 		this.board = board;
@@ -22,13 +24,13 @@ export class Ghosts {
 		this.numGhosts = numGhosts;
 		this.ghosts = [];
 		this.texturesPaths = texturesPaths;
+		this.eatAGhotst = eatAGhotst;
 	}
 	async init() {
 		// const ghostTexture = await PIXI.Assets.load(texturePath);
 		let textureKeys: string[] = Object.keys(this.texturesPaths);
 		textureKeys = textureKeys.sort(() => Math.random() - 0.5);
 		let ghostsPositions = this.board.ghostsInitialPositions;
-        console.log('ghostsPositions', ghostsPositions);
 		for (let i = 0; i < this.numGhosts; i++) {
 			const ghostTexture = await PIXI.Assets.load(this.texturesPaths[textureKeys[i]]);
 			let ghostsInitialPosition = this.board.ghostsInitialPositions[i];
@@ -41,7 +43,6 @@ export class Ghosts {
 				this.mrPackman,
 				5,
 				() => {
-					console.log('ghost eaten');
 					this.ghostEaten(i);
 				}
 			);
@@ -50,14 +51,26 @@ export class Ghosts {
 		}
 	}
 	ghostEaten(index: number) {
-		let ghost = this.ghosts[index];
-		this.app.stage.removeChild(ghost.sprite);
-		// this.ghosts[index] = null;
-		// this.ghosts.splice(index, 1);
-		console.log('ghost eaten');
+		console.log('ghost eaten', index);
+		console.log('ghosts', this.ghosts);
+		if (this.ghosts[index].isKilled()) {
+			return;
+		}
+		this.ghosts[index].kill();
+		this.eatAGhotst();
+		console.log('ghost eaten', index);
 	}
 
 	update(delta: number) {
-		this.ghosts.forEach((ghost) => ghost.update(delta));
+		// remove killed
+		// this.ghosts = this.ghosts.filter((g) => g.isKilled() === false);
+		// update
+		for (const ghost of this.ghosts) {
+			if (ghost.isKilled()) {
+				console.log('ghost killed', this.ghosts);
+			} else {
+				ghost.update(delta);
+			}
+		}
 	}
 }

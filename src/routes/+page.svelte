@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Logo from '$lib/components/Logo.svelte';
 	import Ranking from '$lib/components/Ranking.svelte';
+	import Section from '$lib/components/Section.svelte';
 	import Spacer from '$lib/components/Spacer.svelte';
 	import { Users } from '$lib/front/users.js';
 	import { searchState } from '$lib/states/state.svelte';
@@ -14,7 +15,7 @@
 	searchState.users = users;
 </script>
 
-<section class="flex h-screen w-screen flex-col items-center">
+<Section>
 	<div class="flex h-1/2 flex-col items-center justify-around">
 		<!-- <Spacer height="lg"/> -->
 		<Logo />
@@ -26,4 +27,4 @@
 		<Ranking {users} />
 	</div>
 	<Spacer height="lg" />
-</section>
+</Section>
