@@ -6,9 +6,9 @@
 	export let showMax: number = 5;
 </script>
 
-<div class="mx-auto max-w-lg overflow-hidden rounded-md shadow-md">
+<div class="w-full mx-auto overflow-hidden rounded-md shadow-md">
 	<div class="px-4 py-2 text-white">
-		<h2 class="text-7xl font-semibold">TOP USERS</h2>
+		<h2 class="text-7xl font-semibold">RANKING</h2>
 	</div>
 	<Spacer height="sm" />
 	<ul class="divide-y divide-gray-200 text-white">

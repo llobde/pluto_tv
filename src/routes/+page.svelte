@@ -16,15 +16,11 @@
 </script>
 
 <Section>
-	<div class="flex h-1/2 flex-col items-center justify-around">
-		<!-- <Spacer height="lg"/> -->
-		<Logo />
-		<!-- <Spacer height="lg"/> -->
+	<div class="mx-auto">
+		<Spacer height="lg" />
 		<Button url="/options" text="JUGAR" />
-	</div>
-	<Spacer height="lg" />
-	<div class="h-1/2">
+		<Spacer height="lg" />
 		<Ranking {users} />
+		<Spacer height="lg" />
 	</div>
-	<Spacer height="lg" />
 </Section>

@@ -29,8 +29,8 @@ export class Ghost {
 		this.speed = speed;
 		this.sprite = new PIXI.Sprite(texture);
 		this.sprite.zIndex = 20;
-		this.sprite.width = 100;
-		this.sprite.height = 100;
+		this.sprite.width = this.board.tileSize + this.board.tileSize / this.board.wallRefactor;
+		this.sprite.height = this.board.tileSize+ this.board.tileSize / this.board.wallRefactor;
 		this.sprite.x = this.initialTile.getPositionInPixels().x;
 		this.sprite.y = this.initialTile.getPositionInPixels().y;
 		this.sprite.anchor.set(0.5);

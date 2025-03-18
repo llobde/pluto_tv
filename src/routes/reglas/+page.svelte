@@ -2,35 +2,38 @@
 	import Button from '$lib/components/Button.svelte';
 	import Section from '$lib/components/Section.svelte';
 	import Spacer from '$lib/components/Spacer.svelte';
+	import Arrows from '$lib/assets/arrows.png';
+	import FitText from '$lib/components/FitText.svelte';
 </script>
 
-<Section justify="justify-start">
+<Section justify="justify-between">
 	<Spacer height="lg" />
-	<h2 class="text-9xl">Reglas del Juego</h2>
+	<FitText text="Reglas del Juego" />
 	<Spacer height="lg" />
-	<div class="grid grid-cols-2 gap-4">
-		<div class="rounded-lg bg-[#fff200] p-4 text-black">
-			<h3 class="text-6xl">Controles</h3>
-			<Spacer height="lg" />
+	<!-- bg-[#fff200] -->
+	<ul class="flex flex-col gap-4">
+		<li class="flex items-center justify-start">
+			<!-- <img src={Arrows} alt="" class="w-1/6" /> -->
+			<Spacer height="lg" vertical={false}/>
 			<p class="text-4xl">Usa las teclas de flecha para mover a tu personaje por el laberinto</p>
-		</div>
-		<div class="rounded-lg bg-[#fff200] p-4 text-black">
-			<h3 class="text-6xl">Objetivo</h3>
-			<Spacer height="lg" />
+		</li>
+		<li class="flex items-center justify-start">
+			<!-- <img src={Arrows} alt="" class="w-1/6" /> -->
+			<Spacer height="lg" vertical={false}/>
 			<p class="text-4xl">Consigue el mayor número de puntos en 30 segundos</p>
-		</div>
-		<div class="rounded-lg bg-[#fff200] p-4 text-black">
-			<h3 class="text-6xl">Series</h3>
-			<Spacer height="lg" />
+		</li>
+		<li class="flex items-center justify-start">
+			<!-- <img src={Arrows} alt="" class="w-1/6" /> -->
+			<Spacer height="lg" vertical={false}/>
 			<p class="text-4xl">Comerse una serie vale 10</p>
-		</div>
-		<div class="rounded-lg bg-[#fff200] p-4 text-black">
-			<h3 class="text-6xl">Puntos</h3>
-			<Spacer height="lg" />
+		</li>
+		<li class="flex items-center justify-start">
+			<!-- <img src={Arrows} alt="" class="w-1/6" /> -->
+			<Spacer height="lg" vertical={false}/>
 			<p class="text-4xl">Comerse un punto vale 1</p>
-		</div>
-	</div>
-    <Spacer height="lg" />
+		</li>
+	</ul>
+	<Spacer height="lg" />
 	<Button url="/pacman" text="EMPEZAR" />
 	<!-- <ul class="text-5xl">
 		<li>1. Usa las teclas de flecha para mover a tu personaje.</li>

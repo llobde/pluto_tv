@@ -9,6 +9,22 @@
 
 	console.log(searchState.users);
 
+	function onInput(event: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+		console.log(event);
+	}
+
+	let onFocusName = () => {
+		console.log('focus name');
+		if ('virtualKeyboard' in navigator) {
+			navigator.virtualKeyboard.overlaysContent = true;
+			navigator.virtualKeyboard.show();
+		}
+	};
+
+	let onFocusCompany = () => {
+		console.log('focus company');
+	};
+
 	let addUser = async () => {
 		let nameInput = document.getElementById('name') as HTMLInputElement;
 		let companyInput = document.getElementById('company') as HTMLInputElement;
@@ -16,17 +32,15 @@
 		console.log(companyInput.value);
 		let newUser: User = new User(nameInput.value, '', companyInput.value);
 		searchState.users.addNewUser(newUser);
-        searchState.user = newUser;
+		searchState.user = newUser;
 		console.log(searchState.users);
 		let api = new FrontApi();
-		api.put(searchState.users);
+		await api.put(searchState.users);
 	};
 </script>
 
 <Section>
-	<div class="h-2/3 flex flex-col items-center justify-around">
-		<Logo />
-		
+	<div class="flex flex-col items-center justify-start">
 		<form class="w-full text-[#fff200]">
 			<div class="mb-4">
 				<!-- <label class="mb-2 block text-sm font-bold" for="name"> Nombre </label> -->
@@ -35,6 +49,7 @@
 					id="name"
 					type="text"
 					placeholder="Nombre"
+					on:focus={onFocusName}
 				/>
 			</div>
 			<!-- <Spacer /> -->
@@ -45,9 +60,11 @@
 					id="company"
 					type="text"
 					placeholder="Empresa"
+					on:focus={onFocusCompany}
 				/>
 			</div>
 		</form>
 		<Button text="SIGUIENTE" url="/reglas" preAction={addUser} />
 	</div>
+	<!-- KEYBOARD -->
 </Section>

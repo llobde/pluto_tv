@@ -25,7 +25,7 @@ export class Dot {
 		this.sprite.anchor.set(0.5);
 		this.sprite.width = this.board.tileSize;
 		this.sprite.height = this.board.tileSize;
-		this.sprite.scale.set(0.05);
+		this.sprite.scale.set(0.1);
 		this.sprite.x = this.initialTile.getPositionInPixels().x;
 		this.sprite.y = this.initialTile.getPositionInPixels().y;
 		this.app.stage.addChild(this.sprite);

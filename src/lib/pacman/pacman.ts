@@ -21,6 +21,10 @@ export class PacMan {
 	eatDot: Function;
 	eatSerie: Function;
 	onEnd: Function;
+	gameSeconds: number = 60;
+	secondsToEnd: number;
+	interval: any;
+
 	constructor(
 		appendTo: HTMLElement,
 		canvasSizeW: number,
@@ -44,6 +48,7 @@ export class PacMan {
 		this.onEnd = onEnd;
 		// this.numGhosts = Object.keys(this.series).length;
 		this.numGhosts = 5;
+		this.secondsToEnd = this.gameSeconds;
 	}
 
 	async init() {
@@ -79,13 +84,15 @@ export class PacMan {
 		const dots = new Dots(this.app, board, this.assets['dot'], pacman, this.eatDot);
 		dots.init();
 
+		// Execute countdown
+		this.interval = setInterval(this.countdown.bind(this), 1000);
+
 		// Movimiento y colisión
 		const gameLoop = (time: any) => {
 			// console.log('Num ghosts', this.numGhosts);
 			if (this.numGhosts === 0) {
 				console.log('Game Over');
-				this.app.ticker.stop();
-				this.onEnd();
+				this.endGame();
 			}
 			pacman.update(time.deltaTime);
 			ghosts.update(time.deltaTime);
@@ -93,5 +100,20 @@ export class PacMan {
 		};
 
 		this.app.ticker.add(gameLoop.bind(this));
+	}
+
+	countdown() {
+		this.secondsToEnd--;
+		console.log(`Time left: ${this.secondsToEnd} seconds`);
+		if (this.secondsToEnd <= 0) {
+			console.log('Time is up!');
+			this.endGame();
+		}
+	}
+
+	endGame() {
+		this.app.ticker.stop();
+		this.interval = clearInterval(this.interval);
+		this.onEnd();
 	}
 }

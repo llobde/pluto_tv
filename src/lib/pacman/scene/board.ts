@@ -157,6 +157,7 @@ export class PacmanBoard {
 	pacmanInitialPosition: Tile;
 	numghosts: number = 4;
 	safeTilesToPositionGhosts: number = 5;
+	wallRefactor: number = 2;
 	ghostsInitialPositions: Tile[] = [];
 	dotsInitialPositions: Tile[] = [];
 	debug: boolean = true;
@@ -526,7 +527,16 @@ export class PacmanBoard {
 
 					if (isIsolated) {
 						let rect = new PIXI.Graphics();
-						rect.roundRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize, 40);
+						// rect.pivot.set(this.tileSize / 2, this.tileSize / 2);
+						rect.roundRect(
+							(x * this.tileSize) + this.tileSize / 4,
+							(y * this.tileSize) + this.tileSize / 4,
+							// x * this.tileSize,
+							// y * this.tileSize,
+							this.tileSize / this.wallRefactor,
+							this.tileSize / this.wallRefactor,
+							40
+						);
 						rect.fill(this.wallFillColor);
 						rect.stroke({ width: this.wallStrokeWidth, color: this.wallStrokeColor, cap: 'round' });
 						this.app.stage.addChild(rect);
@@ -549,7 +559,11 @@ export class PacmanBoard {
 									ny * this.tileSize + this.tileSize / 2
 								);
 								line.fill(this.wallFillColor);
-								line.stroke({ width: this.tileSize, color: this.wallStrokeColor, cap: 'round' });
+								line.stroke({
+									width: this.tileSize / this.wallRefactor,
+									color: this.wallStrokeColor,
+									cap: 'round'
+								});
 								this.app.stage.addChild(line);
 							}
 						}

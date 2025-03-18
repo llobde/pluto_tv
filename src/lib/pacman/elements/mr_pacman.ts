@@ -15,8 +15,8 @@ export class MrPacman extends PIXI.Sprite {
 		this.board = board;
 		this.zIndex = 100;
 		this.reduceRadiusFactor = board.tileSize * 0.2;
-		this.width = board.tileSize - this.reduceRadiusFactor;
-		this.height = board.tileSize - this.reduceRadiusFactor;
+		this.width = (board.tileSize + this.board.tileSize / this.board.wallRefactor) - this.reduceRadiusFactor;
+		this.height = (board.tileSize + this.board.tileSize / this.board.wallRefactor) - this.reduceRadiusFactor;
 		this.anchor.set(0.5, 0.5);
 		this.initialTile = board.pacmanInitialPosition;
 		let initialPosition = this.initialTile.getPositionInPixels();

@@ -11,4 +11,4 @@
 	};
 </script>
 
-<button class="w-full rounded-full bg-[#fff200] p-7 text-4xl text-black" on:click={action}>{text}</button>
+<button class="w-full rounded-full bg-[#fff200] p-7 text-4xl text-black font-bold" on:click={action}>{text}</button>

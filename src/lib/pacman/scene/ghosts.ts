@@ -51,14 +51,11 @@ export class Ghosts {
 		}
 	}
 	ghostEaten(index: number) {
-		console.log('ghost eaten', index);
-		console.log('ghosts', this.ghosts);
 		if (this.ghosts[index].isKilled()) {
 			return;
 		}
 		this.ghosts[index].kill();
 		this.eatAGhotst();
-		console.log('ghost eaten', index);
 	}
 
 	update(delta: number) {
@@ -67,7 +64,6 @@ export class Ghosts {
 		// update
 		for (const ghost of this.ghosts) {
 			if (ghost.isKilled()) {
-				console.log('ghost killed', this.ghosts);
 			} else {
 				ghost.update(delta);
 			}

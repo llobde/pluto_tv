@@ -5,51 +5,30 @@
 	import Spacer from '$lib/components/Spacer.svelte';
 	import botella from '$lib/assets/botella_pluto.png';
 	import Section from '$lib/components/Section.svelte';
-	let puntos = 200;
-	let ranking = 1;
+	import { searchState } from '$lib/states/state.svelte';
+	import { onMount } from 'svelte';
+	import FitText from '$lib/components/FitText.svelte';
+
+	onMount(async () => {});
 
 	function reiniciarJuego() {
 		goto('/options');
 	}
 </script>
 
-<Section justify="justify-start">
+<Section showTitle={false}>
 	<Spacer height="lg" />
-	<Logo width={'1/4'} />
-	<Spacer height="lg" />
-	<div class="grid grid-cols-3 gap-4">
-		<div class="col-span-1">
-			<!-- Content for the first column -->
-			<div>
-				<h1 class="text-2xl">¡Gracias por jugar!</h1>
-				<p class="mt-4 text-lg">Tus puntos: <span class="text-pacmanRed">{puntos}</span></p>
-				<p class="text-lg">Ranking: <span class="text-pacmanBlue">{ranking}</span></p>
-			</div>
-		</div>
-		<div class="col-span-1">
-			<!-- Content for the second column -->
-			<div>
-				<img src={botella} alt="botella" />
-			</div>
-		</div>
-		<div class="col-span-1">
-			<!-- Content for the third column -->
-			<Button text={'VOLVER A JUGAR'} url={'/pacman'}></Button>
-		</div>
+	<FitText text={'¡Gracias por jugar!'} width={'w-2/3'} />
+	<Spacer />
+	<FitText text={`Tus puntos · ${searchState.user.points}`} width={'w-2/4'} />
+	<Spacer />
+	<FitText text={`Ranking · ${searchState.users.userRanking(searchState.user)}`} width={'w-2/4'} />
+	<Spacer />
+	<div class="">
+		<Button text={'VOLVER A JUGAR'} url={'/pacman'}></Button>
+		<Spacer />
+		<Button text={'TERMINAR'} url={'/premio'}></Button>
 	</div>
-	<!-- <div class="flex w-full flex-row items-start justify-between">
-		<div>
-			<h1 class="text-2xl">¡Gracias por jugar!</h1>
-			<p class="mt-4 text-lg">Tus puntos: <span class="text-pacmanRed">{puntos}</span></p>
-			<p class="text-lg">Ranking: <span class="text-pacmanBlue">{ranking}</span></p>
-		</div>
-		<div>
-			<img src={botella} alt="botella" />
-		</div>
-	</div>
-	<Spacer height="lg" />
-	<Button text={'VOLVER A JUGAR'} url={'/options'}></Button> -->
-	<Spacer height="lg" />
 </Section>
 
 <style>

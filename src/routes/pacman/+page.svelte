@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { searchState } from '$lib/states/state.svelte';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { FrontApi } from '$lib/front/front_api';
 	// Assets
 	import MrPacman from '$lib/assets/game/pacman.png';
 	import Ghost from '$lib/assets/game/ghost.png';
@@ -29,9 +31,17 @@
 
 	let tileSize: number = 100;
 	let gameSize: number;
+	let heightSize: number;
+	let widthSize: number;
+	let refactorHeight: number = 0;
 
 	onMount(async () => {
 		gameSize = canvasSize();
+		heightSize = gameSize - gameSize * refactorHeight;
+		widthSize = gameSize;
+		console.log('Game Size', gameSize);
+		console.log('Height Size', heightSize);
+		console.log('Width Size', widthSize);
 		const pacmanGame = await import('$lib/pacman/pacman');
 		let addTo = document.getElementById('game');
 		if (!addTo) {
@@ -41,8 +51,8 @@
 		}
 		let pacManGame = new pacmanGame.PacMan(
 			addTo,
-			gameSize,
-			gameSize,
+			widthSize,
+			heightSize,
 			tileSize,
 			{
 				pacman: MrPacman,
@@ -77,9 +87,13 @@
 			() => {
 				searchState.user.points += 100;
 			},
-			() => {
+			async () => {
 				console.log('Game Over');
 				console.log(searchState.user);
+				searchState.users.updateUser(searchState.user);
+				let api = new FrontApi();
+				await api.put(searchState.users);
+				goto('/finish');
 			}
 		);
 		await pacManGame.init();
@@ -95,6 +109,6 @@
 	<Counter max={6} />
 </section> -->
 
-<div class="flex flex-col items-center justify-center h-screen">
-	<section id="game" class="w-[{gameSize}px] h-[{gameSize}px]"></section>
+<div class="flex h-screen flex-col items-center justify-center">
+	<section id="game" class="w-[{widthSize}px] h-[{heightSize}px]"></section>
 </div>
