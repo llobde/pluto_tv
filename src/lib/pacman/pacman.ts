@@ -24,12 +24,14 @@ export class PacMan {
 	gameSeconds: number = 60;
 	secondsToEnd: number;
 	interval: any;
+	debug: boolean = true;
 
 	constructor(
 		appendTo: HTMLElement,
 		canvasSizeW: number,
 		canvasSizeH: number,
 		tileSize: number,
+		gameSeconds: number,
 		assets: { [key: string]: string },
 		series: { [key: string]: string },
 		eatDot: Function,
@@ -39,7 +41,9 @@ export class PacMan {
 		this.canvasSizeW = canvasSizeW;
 		this.canvasSizeH = canvasSizeH;
 		this.tileSize = tileSize;
+		this.gameSeconds = gameSeconds;
 		this.assets = assets;
+		this.shuffleAssets();
 		this.series = series;
 		this.appendTo = appendTo;
 		this.app = new PIXI.Application();
@@ -47,8 +51,21 @@ export class PacMan {
 		this.eatSerie = eatSerie;
 		this.onEnd = onEnd;
 		// this.numGhosts = Object.keys(this.series).length;
-		this.numGhosts = 5;
+		this.numGhosts = 10;
 		this.secondsToEnd = this.gameSeconds;
+	}
+
+	shuffleAssets() {
+		const keys = Object.keys(this.assets);
+		for (let i = keys.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[keys[i], keys[j]] = [keys[j], keys[i]];
+		}
+		const shuffledAssets = keys.reduce((result, key) => {
+			result[key] = this.assets[key];
+			return result;
+		}, {} as { [key: string]: string });
+		this.assets = shuffledAssets;
 	}
 
 	async init() {
@@ -103,11 +120,13 @@ export class PacMan {
 	}
 
 	countdown() {
-		this.secondsToEnd--;
-		console.log(`Time left: ${this.secondsToEnd} seconds`);
-		if (this.secondsToEnd <= 0) {
-			console.log('Time is up!');
-			this.endGame();
+		if (!this.debug) {
+			this.secondsToEnd--;
+			console.log(`Time left: ${this.secondsToEnd} seconds`);
+			if (this.secondsToEnd <= 0) {
+				console.log('Time is up!');
+				this.endGame();
+			}
 		}
 	}
 

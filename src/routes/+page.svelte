@@ -18,7 +18,7 @@
 <Section>
 	<div class="mx-auto">
 		<Spacer height="lg" />
-		<Button url="/options" text="JUGAR" />
+		<Button url="/form" text="JUGAR" />
 		<Spacer height="lg" />
 		<Ranking {users} />
 		<Spacer height="lg" />

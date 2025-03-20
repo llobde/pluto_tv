@@ -6,28 +6,51 @@
 	// Assets
 	import MrPacman from '$lib/assets/game/pacman.png';
 	import Ghost from '$lib/assets/game/ghost.png';
-	// Series
-	import alaska from '$lib/assets/series/alaska.png';
-	import avatar from '$lib/assets/series/avatar.png';
-	import bob from '$lib/assets/series/bob.png';
-	import carly from '$lib/assets/series/carly.png';
-	import conan from '$lib/assets/series/conan.png';
-	import embrujadas from '$lib/assets/series/embrujadas.png';
-	import endeavour from '$lib/assets/series/endeavour.png';
-	import gandia from '$lib/assets/series/gandia.png';
-	import gear from '$lib/assets/series/gear.png';
-	import jersey from '$lib/assets/series/jersey.png';
-	import midsomer from '$lib/assets/series/midsomer.png';
-	import ninja from '$lib/assets/series/ninja.png';
-	import park from '$lib/assets/series/park.png';
-	import perros from '$lib/assets/series/perros.png';
-	import poirot from '$lib/assets/series/poirot.png';
-	import sakura from '$lib/assets/series/sakura.png';
-	import trek from '$lib/assets/series/trek.png';
-	import vivir from '$lib/assets/series/vivir.png';
-	import who from '$lib/assets/series/who.png';
-	import yu from '$lib/assets/series/yu.png';
 	import dot from '$lib/assets/game/pacman_dot.png';
+	// Series
+	// import alaska from '$lib/assets/series/alaska.png';
+	// import avatar from '$lib/assets/series/avatar.png';
+	// import bob from '$lib/assets/series/bob.png';
+	// import carly from '$lib/assets/series/carly.png';
+	// import conan from '$lib/assets/series/conan.png';
+	// import embrujadas from '$lib/assets/series/embrujadas.png';
+	// import endeavour from '$lib/assets/series/endeavour.png';
+	// import gandia from '$lib/assets/series/gandia.png';
+	// import gear from '$lib/assets/series/gear.png';
+	// import jersey from '$lib/assets/series/jersey.png';
+	// import midsomer from '$lib/assets/series/midsomer.png';
+	// import ninja from '$lib/assets/series/ninja.png';
+	// import park from '$lib/assets/series/park.png';
+	// import perros from '$lib/assets/series/perros.png';
+	// import poirot from '$lib/assets/series/poirot.png';
+	// import sakura from '$lib/assets/series/sakura.png';
+	// import trek from '$lib/assets/series/trek.png';
+	// import vivir from '$lib/assets/series/vivir.png';
+	// import who from '$lib/assets/series/who.png';
+	// import yu from '$lib/assets/series/yu.png';
+	import texas from '$lib/assets/game/ghosts/toGame/texas.png';
+	import avatar from '$lib/assets/game/ghosts/toGame/avatar.png';
+	import bob from '$lib/assets/game/ghosts/toGame/bob.png';
+	import yu from '$lib/assets/game/ghosts/toGame/yu.png';
+	import vivir from '$lib/assets/game/ghosts/toGame/vivir.png';
+	import watch from '$lib/assets/game/ghosts/toGame/watch.png';
+	import ninja from '$lib/assets/game/ghosts/toGame/ninja.png';
+	import park from '$lib/assets/game/ghosts/toGame/park.png';
+	import marine from '$lib/assets/game/ghosts/toGame/marine.png';
+	import withc from '$lib/assets/game/ghosts/toGame/embrujadas.png';
+	import ende from '$lib/assets/game/ghosts/toGame/ende.png';
+	import gear from '$lib/assets/game/ghosts/toGame/gear.png';
+	import who from '$lib/assets/game/ghosts/toGame/who.png';
+	import trek from '$lib/assets/game/ghosts/toGame/trek.png';
+	import blue from '$lib/assets/game/ghosts/toGame/blue.png';
+	import jersey from '$lib/assets/game/ghosts/toGame/jersey.png';
+	import gandia from '$lib/assets/game/ghosts/toGame/gandia.png';
+	import cherif from '$lib/assets/game/ghosts/toGame/cherif.png';
+	import carly from '$lib/assets/game/ghosts/toGame/carly.png';
+	import v from '$lib/assets/game/ghosts/toGame/v.png';
+	import alaska from '$lib/assets/game/ghosts/toGame/alaska.png';
+	import p from '$lib/assets/game/ghosts/toGame/p.png';
+	import conan from '$lib/assets/game/ghosts/toGame/conan.png';
 
 	let tileSize: number = 100;
 	let gameSize: number;
@@ -54,32 +77,37 @@
 			widthSize,
 			heightSize,
 			tileSize,
+			60,
 			{
 				pacman: MrPacman,
 				ghost: Ghost,
 				dot: dot
 			},
 			{
-				alaska,
+				texas,
 				avatar,
 				bob,
-				carly,
-				conan,
-				embrujadas,
-				endeavour,
-				gandia,
-				gear,
-				jersey,
-				midsomer,
+				yu,
+				vivir,
+				watch,
 				ninja,
 				park,
-				perros,
-				poirot,
-				sakura,
-				trek,
-				vivir,
+				marine,
+				withc,
+				ende,
+				gear,
 				who,
-				yu
+				trek,
+				blue,
+				jersey,
+				gandia,
+				cherif,
+				carly,
+				v,
+				alaska,
+				p,
+				conan,
+
 			},
 			() => {
 				searchState.user.points += 10;

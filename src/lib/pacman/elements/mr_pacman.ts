@@ -14,7 +14,7 @@ export class MrPacman extends PIXI.Sprite {
 		this.app = app;
 		this.board = board;
 		this.zIndex = 100;
-		this.reduceRadiusFactor = board.tileSize * 0.2;
+		this.reduceRadiusFactor = board.tileSize * 0.1;
 		this.width = (board.tileSize + this.board.tileSize / this.board.wallRefactor) - this.reduceRadiusFactor;
 		this.height = (board.tileSize + this.board.tileSize / this.board.wallRefactor) - this.reduceRadiusFactor;
 		this.anchor.set(0.5, 0.5);

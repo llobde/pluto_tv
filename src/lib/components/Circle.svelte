@@ -1,0 +1,1 @@
+<div class="w-[50px] h-[50px] border-8 border-white rounded-full"></div>

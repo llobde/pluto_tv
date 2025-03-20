@@ -3533,6 +3533,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-web@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: 10c0/0aeaf631b10a76afd025df70c2a1486543530708e07a316946c08e55891dac483ffbaf2bf3648ae0b9c54c733118a0a086fd150aa76f7848606214c67ad72c30
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
@@ -4089,6 +4096,7 @@ __metadata:
     eslint-plugin-svelte: "npm:^2.46.1"
     globals: "npm:^15.14.0"
     lodash: "npm:^4.17.21"
+    lottie-web: "npm:^5.12.2"
     ml5: "npm:^1.2.1"
     motion: "npm:^12.4.7"
     p5: "npm:^1.11.3"

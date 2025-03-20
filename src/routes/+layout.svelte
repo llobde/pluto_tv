@@ -8,6 +8,10 @@
 	});
 </script>
 
+<!-- <svelte:head> 
+<link rel="preload" as="font" href="/fonts/custom-font.woff2" type="font/woff2" crossorigin="anonymous"> 
+</svelte:head> -->
+
 <main class="h-screen w-screen bg-black">
 	{@render children()}
 </main>

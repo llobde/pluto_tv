@@ -7,43 +7,30 @@
 	import Section from '$lib/components/Section.svelte';
 	import { searchState } from '$lib/states/state.svelte';
 	import { onMount } from 'svelte';
+	import FitText from '$lib/components/FitText.svelte';
 
 	onMount(async () => {});
 
 	function reiniciarJuego() {
-		goto('/options');
+		goto('/');
 	}
+
+	function iniciarTemporizador() {
+		setTimeout(() => {
+			reiniciarJuego();
+		}, 60000); // 60000 milliseconds = 1 minute
+	}
+
+	onMount(() => {
+		iniciarTemporizador();
+	});
 </script>
 
-<Section>
+<Section showTitle={false}>
 	<Spacer height="lg" />
-	<div class="grid grid-cols-3 gap-4">
-		<div class="col-span-1">
-			<!-- Content for the first column -->
-			<div>
-				<h1 class="text-2xl">¡Gracias por jugar!</h1>
-				<p class="mt-4 text-lg">
-					Tus puntos: <span class="text-pacmanRed">{searchState.user.points}</span>
-				</p>
-				<p class="text-lg">
-					Ranking: <span class="text-pacmanBlue"
-						>{searchState.users.userRanking(searchState.user)}</span
-					>
-				</p>
-			</div>
-		</div>
-		<div class="col-span-1">
-			<!-- Content for the second column -->
-			<div>
-				<img src={botella} alt="botella" />
-			</div>
-		</div>
-		<div class="col-span-1">
-			<!-- Content for the third column -->
-			<Button text={'VOLVER A JUGAR'} url={'/pacman'}></Button>
-		</div>
-	</div>
+	<FitText text="¡Puedes recoger tu premio en la entrada!" />
 	<Spacer height="lg" />
+	<img src={botella} alt="botella" />
 </Section>
 
 <style>
