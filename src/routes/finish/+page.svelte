@@ -8,8 +8,20 @@
 	import { searchState } from '$lib/states/state.svelte';
 	import { onMount } from 'svelte';
 	import FitText from '$lib/components/FitText.svelte';
+	import { animate, stagger } from 'motion';
 
-	onMount(async () => {});
+	onMount(() => {
+		animate(
+			'.fx-element',
+			{
+				opacity: [0, 1]
+			},
+			{
+				duration: 0.5,
+				delay: stagger(0.3)
+			}
+		);
+	});
 
 	function reiniciarJuego() {
 		goto('/options');
@@ -18,16 +30,16 @@
 
 <Section showTitle={false}>
 	<Spacer height="lg" />
-	<FitText text={'¡Gracias por jugar!'} width={'w-2/3'} />
+	<FitText text={'¡Gracias por jugar!'} width={'w-2/3'}  haveEffect={true}/>
 	<Spacer />
-	<FitText text={`Tus puntos · ${searchState.user.points}`} width={'w-2/4'} />
+	<FitText text={`Tus puntos · ${searchState.user.points}`} width={'w-2/4'} haveEffect={true}/>
 	<Spacer />
-	<FitText text={`Ranking · ${searchState.users.userRanking(searchState.user)}`} width={'w-2/4'} />
+	<FitText text={`Ranking #${searchState.users.userRanking(searchState.user)}`} width={'w-2/4'} haveEffect={true}/>
 	<Spacer />
 	<div class="">
-		<Button text={'VOLVER A JUGAR'} url={'/pacman'}></Button>
+		<Button text={'VOLVER A JUGAR'} url={'/pacman'} haveEffect={true}></Button>
 		<Spacer />
-		<Button text={'TERMINAR'} url={'/premio'}></Button>
+		<Button text={'TERMINAR'} url={'/premio'} haveEffect={true}></Button>
 	</div>
 </Section>
 

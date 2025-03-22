@@ -6,6 +6,8 @@
 	import { FrontApi } from '$lib/front/front_api';
 	import { User } from '$lib/front/user';
 	import { searchState } from '$lib/states/state.svelte';
+	import { animate, stagger } from 'motion';
+	import { onMount } from 'svelte';
 
 	console.log(searchState.users);
 
@@ -37,6 +39,19 @@
 		let api = new FrontApi();
 		await api.put(searchState.users);
 	};
+
+	onMount(() => {
+		animate(
+			'.fx-element',
+			{
+				opacity: [0, 1]
+			},
+			{
+				duration: 0.5,
+				delay: stagger(0.3)
+			}
+		);
+	});
 </script>
 
 <Section>
@@ -45,7 +60,7 @@
 			<div class="mb-4">
 				<!-- <label class="mb-2 block text-sm font-bold" for="name"> Nombre </label> -->
 				<input
-					class="focus:shadow-outline w-full appearance-none rounded-full border-8 border-[#fff200]  placeholder-white px-8 py-5 text-5xl leading-tight shadow focus:outline-none"
+					class="fx-element focus:shadow-outline w-full appearance-none rounded-full border-8 border-[#fff200] px-8 py-5 text-5xl leading-tight placeholder-white shadow focus:outline-none"
 					id="name"
 					type="text"
 					placeholder="Nombre"
@@ -56,7 +71,7 @@
 			<div class="mb-6">
 				<!-- <label class="mb-2 block text-sm font-bold" for="company"> Empresa </label> -->
 				<input
-					class="focus:shadow-outline w-full appearance-none rounded-full border-8 border-[#fff200] placeholder-white px-8 py-5 text-5xl leading-tight shadow focus:outline-none"
+					class="fx-element focus:shadow-outline w-full appearance-none rounded-full border-8 border-[#fff200] px-8 py-5 text-5xl leading-tight placeholder-white shadow focus:outline-none"
 					id="company"
 					type="text"
 					placeholder="Empresa"
@@ -64,7 +79,7 @@
 				/>
 			</div>
 		</form>
-		<Button text="SIGUIENTE" url="/reglas" preAction={addUser} />
+		<Button text="SIGUIENTE" url="/reglas" preAction={addUser} haveEffect={true} />
 	</div>
 	<!-- KEYBOARD -->
 </Section>

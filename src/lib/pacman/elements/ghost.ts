@@ -49,8 +49,8 @@ export class Ghost {
 		return this.aiController.isKilled();
 	}
 
-	update(delta: number) {
-		this.aiController.update(delta, this.mrPacman);
+	update(delta: number, otherGhosts: Ghost[]) {
+		this.aiController.update(delta, this.mrPacman, otherGhosts);
 		this.sprite.x = this.aiController.position.x;
 		this.sprite.y = this.aiController.position.y;
 	}

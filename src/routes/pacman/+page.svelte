@@ -51,12 +51,13 @@
 	import alaska from '$lib/assets/game/ghosts/toGame/alaska.png';
 	import p from '$lib/assets/game/ghosts/toGame/p.png';
 	import conan from '$lib/assets/game/ghosts/toGame/conan.png';
-
+	const totalSeconds = 60;
 	let tileSize: number = 100;
 	let gameSize: number;
 	let heightSize: number;
 	let widthSize: number;
 	let refactorHeight: number = 0;
+	let secondsLeft: number = 60;
 
 	onMount(async () => {
 		gameSize = canvasSize();
@@ -65,6 +66,7 @@
 		console.log('Game Size', gameSize);
 		console.log('Height Size', heightSize);
 		console.log('Width Size', widthSize);
+		secondsLeft = totalSeconds;
 		const pacmanGame = await import('$lib/pacman/pacman');
 		let addTo = document.getElementById('game');
 		if (!addTo) {
@@ -77,7 +79,7 @@
 			widthSize,
 			heightSize,
 			tileSize,
-			60,
+			totalSeconds,
 			{
 				pacman: MrPacman,
 				ghost: Ghost,
@@ -106,8 +108,7 @@
 				v,
 				alaska,
 				p,
-				conan,
-
+				conan
 			},
 			() => {
 				searchState.user.points += 10;
@@ -122,6 +123,10 @@
 				let api = new FrontApi();
 				await api.put(searchState.users);
 				goto('/finish');
+			},
+			() => {
+				console.log('Oncount down');
+				secondsLeft--;
 			}
 		);
 		await pacManGame.init();
@@ -136,7 +141,13 @@
 <!-- <section class="pointer-events-none fixed inset-0 z-50">
 	<Counter max={6} />
 </section> -->
-
+<div class="pointer-events-none fixed h-screen w-screen">
+	<div
+		class="flex h-[150px] w-[150px] items-center justify-center rounded-full bg-[#fff200] bg-opacity-50 text-black m-20"
+	>
+		<h1 class="text-8xl font-bold">{secondsLeft}</h1>
+	</div>
+</div>
 <div class="flex h-screen flex-col items-center justify-center">
 	<section id="game" class="w-[{widthSize}px] h-[{heightSize}px]"></section>
 </div>

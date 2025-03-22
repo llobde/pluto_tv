@@ -8,8 +8,20 @@
 	import { searchState } from '$lib/states/state.svelte';
 	import { onMount } from 'svelte';
 	import FitText from '$lib/components/FitText.svelte';
+	import { animate, stagger } from 'motion';
 
-	onMount(async () => {});
+	onMount(() => {
+		animate(
+			'.fx-element',
+			{
+				opacity: [0, 1]
+			},
+			{
+				duration: 0.5,
+				delay: stagger(0.3)
+			}
+		);
+	});
 
 	function reiniciarJuego() {
 		goto('/');
@@ -22,15 +34,17 @@
 	}
 
 	onMount(() => {
-		iniciarTemporizador();
+		// iniciarTemporizador();
 	});
 </script>
 
-<Section showTitle={false}>
+<Section showTitle={false} firstColor="#fff200" backgroundColor="#fff200" justify="justify-between">
 	<Spacer height="lg" />
-	<FitText text="¡Puedes recoger tu premio en la entrada!" />
+	<FitText text="¡Puedes recoger tu premio en la salida!" textColor={"text-black"} haveEffect={true}/>
 	<Spacer height="lg" />
-	<img src={botella} alt="botella" />
+	<img  src={botella} alt="botella" class="fx-element m-0" />
+	<Spacer height="lg" />
+	<Button text="TERMINAR" url="/" haveEffect={true} bg={"bg-[#000000]"} textColor="text-white"></Button>
 </Section>
 
 <style>

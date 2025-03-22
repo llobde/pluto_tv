@@ -50,12 +50,21 @@ export class Ghosts {
 			this.app.stage.addChild(ghost.sprite);
 		}
 	}
+
+	totalGhosts() {
+		return this.ghosts.length;
+	}
+
 	ghostEaten(index: number) {
 		if (this.ghosts[index].isKilled()) {
 			return;
 		}
 		this.ghosts[index].kill();
 		this.eatAGhotst();
+	}
+
+	ghostsKilled() {
+		return this.ghosts.filter((g) => g.isKilled()).length;
 	}
 
 	update(delta: number) {
@@ -65,7 +74,8 @@ export class Ghosts {
 		for (const ghost of this.ghosts) {
 			if (ghost.isKilled()) {
 			} else {
-				ghost.update(delta);
+				const otherGhosts = this.ghosts.filter(g => g !== ghost && !g.isKilled());
+				ghost.update(delta, otherGhosts);
 			}
 		}
 	}

@@ -3,10 +3,12 @@
 	export let upperCase: boolean = true;
 	export let width: string = 'w-full';
 	export let height: string = 'h-full';
+	export let textColor: string = 'text-white';
+	export let haveEffect: boolean = false;
 </script>
 
 <div class="{width}">
-	<span class="text-fit font-bold leading-none">
+	<span class="{haveEffect ? 'fx-element': ''} text-fit font-bold leading-none {textColor}">
 		<span><span>{text.toUpperCase()}</span></span>
 		<span aria-hidden="true">{text.toUpperCase()}</span>
 	</span>

@@ -194,6 +194,24 @@ export class PacmanBoard {
 
 	// UTIL FUNCTIONS
 
+	isPath(x: number, y: number): boolean {
+		return this.maze[y][x].isPath();
+	}
+
+	getTile(x: number, y: number): Tile {
+		return this.maze[y][x];
+	}
+
+	getAllTiles(): Tile[] {
+		const tiles: Tile[] = [];
+		for (let y = 0; y < this.rows; y++) {
+			for (let x = 0; x < this.cols; x++) {
+				tiles.push(this.maze[y][x]);
+			}
+		}
+		return tiles;
+	}
+
 	getAdjacentsTiles(tile: Tile): Tile[] {
 		let adjacents: Tile[] = [];
 		let directions = [Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT];
@@ -246,6 +264,68 @@ export class PacmanBoard {
 		for (let y = 0; y < this.rows; y++) {
 			for (let x = 0; x < this.cols; x++) {
 				if (this.maze[y][x].isPath()) {
+					let distance = Math.sqrt(Math.pow(x - tile.x, 2) + Math.pow(y - tile.y, 2));
+					if (distance > maxDistance) {
+						maxDistance = distance;
+						furthestTile = this.maze[y][x];
+					}
+				}
+			}
+		}
+
+		return furthestTile;
+	}
+
+	getFurthestTilesFrom(tile: Tile, radius: number): Tile[] {
+		const furthestTiles: Tile[] = [];
+		const centerX = tile.x;
+		const centerY = tile.y;
+
+		for (let y = 0; y < this.rows; y++) {
+			for (let x = 0; x < this.cols; x++) {
+				const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+				if (distance >= radius && this.maze[y][x].isPath()) {
+					furthestTiles.push(this.maze[y][x]);
+				}
+			}
+		}
+
+		return furthestTiles;
+	}
+
+	getRandomFurthestValidTile(tile: Tile, radius: number): Tile | null {
+		const furthestTiles = this.getFurthestTilesFrom(tile, radius);
+		if (furthestTiles.length === 0) {
+			return null;
+		}
+		const randomIndex = Math.floor(Math.random() * furthestTiles.length);
+		return furthestTiles[randomIndex];
+	}
+
+	getOppositeTile(tile: Tile): Tile {
+		let oppositeTile = this.maze[this.rows - 1 - tile.y][this.cols - 1 - tile.x];
+		if (oppositeTile.isWall()) {
+			let directions = [Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT];
+			for (let direction of directions) {
+				let adjacent = this.getAdjacentTileInDirection(oppositeTile, direction);
+				if (adjacent && adjacent.isPath()) {
+					return adjacent;
+				}
+			}
+		}
+		return oppositeTile;
+	}
+
+	getFurthestTileFromDifferentDestinations(tile: Tile, destinations: Tile[]): Tile {
+		let furthestTile: Tile = tile;
+		let maxDistance = 3;
+
+		for (let y = 0; y < this.rows; y++) {
+			for (let x = 0; x < this.cols; x++) {
+				if (
+					this.maze[y][x].isPath() &&
+					!destinations.some((dest) => dest.samePosition(this.maze[y][x]))
+				) {
 					let distance = Math.sqrt(Math.pow(x - tile.x, 2) + Math.pow(y - tile.y, 2));
 					if (distance > maxDistance) {
 						maxDistance = distance;
@@ -529,8 +609,8 @@ export class PacmanBoard {
 						let rect = new PIXI.Graphics();
 						// rect.pivot.set(this.tileSize / 2, this.tileSize / 2);
 						rect.roundRect(
-							(x * this.tileSize) + this.tileSize / 4,
-							(y * this.tileSize) + this.tileSize / 4,
+							x * this.tileSize + this.tileSize / 4,
+							y * this.tileSize + this.tileSize / 4,
 							// x * this.tileSize,
 							// y * this.tileSize,
 							this.tileSize / this.wallRefactor,

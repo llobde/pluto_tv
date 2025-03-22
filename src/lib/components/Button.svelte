@@ -4,6 +4,9 @@
 	export let url: string = '/';
 	export let text: string = 'Text';
 	export let preAction: () => Promise<void> = async () => {};
+	export let haveEffect: boolean = false;
+	export let bg = 'bg-[#fff200]';
+	export let textColor = 'text-black';
 
 	let action = async () => {
 		await preAction();
@@ -11,4 +14,6 @@
 	};
 </script>
 
-<button class="w-full rounded-full bg-[#fff200] p-7 text-4xl text-black font-bold" on:click={action}>{text}</button>
+<button class="{haveEffect ? 'fx-element': ''} w-full rounded-full {bg} p-7 text-4xl font-bold {textColor}" on:click={action}
+	>{text}</button
+>

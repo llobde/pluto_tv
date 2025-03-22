@@ -2,14 +2,17 @@ enum Mode {
 	CHASE,
 	SCATTER,
 	FRIGHTENED,
+	CLEVER,
 	EATEN,
-	KILLED
+	KILLED,
+	CRAZY
 }
 
 import type { MrPacman } from '../elements/mr_pacman';
 import type { PacmanBoard, Tile } from '../scene/board';
 import * as _ from 'lodash';
 import { Chase, Escape } from './ai_alghorithms';
+import type { Ghost } from '../elements/ghost';
 
 export class GhostController {
 	intile: Tile;
@@ -22,6 +25,7 @@ export class GhostController {
 	private board: PacmanBoard;
 	private isScared: boolean = false;
 	private inPAth: Tile[] = [];
+	private furtherTile?: Tile;
 	private chase: Chase;
 	private escape: Escape;
 	private mode: Mode = Mode.FRIGHTENED;
@@ -37,9 +41,37 @@ export class GhostController {
 		this.speed = speed;
 		this.chase = new Chase(board);
 		this.escape = new Escape(board);
+		// this.startCrazyMode();
 	}
 
-	private moveAlongPath(delta: number) {
+	/*** CRAZY MODE */
+
+	// private crazyInterval!: NodeJS.Timeout;
+	// private crazyTimeout!: NodeJS.Timeout;
+
+	// startCrazyMode() {
+	// 	this.crazyInterval = setInterval(() => {
+	// 		this.mode = Mode.CRAZY;
+	// 		this.crazyTimeout = setTimeout(() => {
+	// 			this.mode = Mode.CLEVER;
+	// 		}, 3000);
+	// 	}, 5000);
+	// }
+
+	// stopCrazyMode() {
+	// 	clearInterval(this.crazyInterval);
+	// 	clearTimeout(this.crazyTimeout);
+	// }
+
+	get inFurtherTile() {
+		return this.furtherTile;
+	}
+
+	set inFurtherTile(tile: Tile | undefined) {
+		this.furtherTile = tile;
+	}
+
+	private moveAlongPath(delta: number, otherGhosts: Ghost[]) {
 		if (this.inPAth.length > 0) {
 			const nextTile = this.inPAth[0];
 			const nextPosition = nextTile.getPositionInPixels();
@@ -59,7 +91,7 @@ export class GhostController {
 		return this.position;
 	}
 
-	update(delta: number, mrPacman: MrPacman) {
+	update(delta: number, mrPacman: MrPacman, otherGhosts: Ghost[]) {
 		if (this.mode === Mode.KILLED) {
 			return;
 		}
@@ -68,6 +100,7 @@ export class GhostController {
 			this.mode = Mode.KILLED;
 			return this.position;
 		}
+
 		switch (this.mode) {
 			case Mode.CHASE:
 				if (this.inPAth.length === 0) {
@@ -77,7 +110,7 @@ export class GhostController {
 						this.inPAth = this.chase.findPathToPacman(mrPacman, this.intile);
 					}
 				}
-				this.moveAlongPath(delta);
+				this.moveAlongPath(delta, otherGhosts);
 				return this.position;
 				break;
 			case Mode.SCATTER:
@@ -91,7 +124,39 @@ export class GhostController {
 						this.inPAth = this.escape.findPathAwayFromPacman(mrPacman, this.intile);
 					}
 				}
-				this.moveAlongPath(delta);
+				this.moveAlongPath(delta, otherGhosts);
+				return this.position;
+				break;
+			case Mode.CLEVER:
+				let otherPaths = otherGhosts.map((g) => {
+					return g.aiController.inPAth;
+				});
+				let otherGhostsTiles = otherGhosts.map((g) => {
+					return g.aiController.intile;
+				});
+				if (this.inPAth.length === 0) {
+					
+				} else {
+					
+				}
+				this.moveAlongPath(delta, otherGhosts);
+				return this.position;
+				break;
+			case Mode.CRAZY:
+				const otherPaths2 = otherGhosts.map((g) => {
+					return g.aiController.inPAth;
+				});
+				const otherGhostsTiles2 = otherGhosts.map((g) => {
+					return g.aiController.intile;
+				});
+				if (this.inPAth.length === 0) {
+					this.inPAth = this.escape.findRandomPathAwayFromPacman(mrPacman, this.intile);
+				} else {
+					if (Math.random() < delta / 1000) {
+						this.inPAth = this.escape.findRandomPathAwayFromPacman(mrPacman, this.intile);
+					}
+				}
+				this.moveAlongPath(delta, otherGhosts);
 				return this.position;
 				break;
 			case Mode.EATEN:

@@ -21,10 +21,11 @@ export class PacMan {
 	eatDot: Function;
 	eatSerie: Function;
 	onEnd: Function;
-	gameSeconds: number = 60;
+	onCountdown: Function;
+	gameSeconds: number = 30;
 	secondsToEnd: number;
 	interval: any;
-	debug: boolean = true;
+	debug: boolean = false;
 
 	constructor(
 		appendTo: HTMLElement,
@@ -36,7 +37,8 @@ export class PacMan {
 		series: { [key: string]: string },
 		eatDot: Function,
 		eatSerie: Function,
-		onEnd: Function
+		onEnd: Function,
+		oncountdown: Function
 	) {
 		this.canvasSizeW = canvasSizeW;
 		this.canvasSizeH = canvasSizeH;
@@ -50,6 +52,7 @@ export class PacMan {
 		this.eatDot = eatDot;
 		this.eatSerie = eatSerie;
 		this.onEnd = onEnd;
+		this.onCountdown = oncountdown;
 		// this.numGhosts = Object.keys(this.series).length;
 		this.numGhosts = 10;
 		this.secondsToEnd = this.gameSeconds;
@@ -106,9 +109,9 @@ export class PacMan {
 
 		// Movimiento y colisión
 		const gameLoop = (time: any) => {
-			// console.log('Num ghosts', this.numGhosts);
-			if (this.numGhosts === 0) {
-				console.log('Game Over');
+			let killedGhosts = ghosts.ghostsKilled();
+			if (killedGhosts === ghosts.totalGhosts()) {
+				console.log('You win!');
 				this.endGame();
 			}
 			pacman.update(time.deltaTime);
@@ -122,6 +125,7 @@ export class PacMan {
 	countdown() {
 		if (!this.debug) {
 			this.secondsToEnd--;
+			this.onCountdown();
 			console.log(`Time left: ${this.secondsToEnd} seconds`);
 			if (this.secondsToEnd <= 0) {
 				console.log('Time is up!');
