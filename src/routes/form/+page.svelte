@@ -8,6 +8,7 @@
 	import { searchState } from '$lib/states/state.svelte';
 	import { animate, stagger } from 'motion';
 	import { onMount } from 'svelte';
+	let error: boolean = false;
 
 	console.log(searchState.users);
 
@@ -30,6 +31,10 @@
 	let addUser = async () => {
 		let nameInput = document.getElementById('name') as HTMLInputElement;
 		let companyInput = document.getElementById('company') as HTMLInputElement;
+		if (!nameInput.value || !companyInput.value) {
+			error = true;
+			return false;
+		}
 		console.log(nameInput.value);
 		console.log(companyInput.value);
 		let newUser: User = new User(nameInput.value, '', companyInput.value);
@@ -38,6 +43,7 @@
 		console.log(searchState.users);
 		let api = new FrontApi();
 		await api.put(searchState.users);
+		return true;
 	};
 
 	onMount(() => {
@@ -53,6 +59,37 @@
 		);
 	});
 </script>
+
+{#if error}
+	<div class=" fixed inset-0 flex items-center justify-center bg-[#fff200] bg-opacity-50">
+		<div
+			class="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg"
+		>
+			<div class="bg-black px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+				<div class="sm:flex sm:items-start">
+					
+					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						
+						<div class="mt-2">
+							<p class="text-6xl text-white">
+								Por favor, llena todos los campos.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bg-black px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+				<button
+					on:click={() => (error = false)}
+					type="button"
+					class="inline-flex w-full justify-center rounded-full border border-transparent bg-[#fff200] px-4 py-2 text-6xl font-medium text-black"
+				>
+					Deacuerdo
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <Section>
 	<div class="flex flex-col items-center justify-start">
