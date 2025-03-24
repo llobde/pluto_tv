@@ -1,11 +1,14 @@
 import * as PIXI from 'pixi.js';
-import { MrPacman } from './elements/mr_pacman';
+import { MrPacman, MOVEMENT_TYPE } from './elements/mr_pacman';
 import { Ghost } from './elements/ghost';
 import { PacmanBoard } from './scene/board';
 import { Dot } from './elements/dot';
 import { Ghosts } from './scene/ghosts';
 import { Dots } from './scene/dots';
+import { FadingCircle } from './elements/pointClick';
+
 export class PacMan {
+	movement: MOVEMENT_TYPE = MOVEMENT_TYPE.CLICK;
 	appendTo: HTMLElement;
 	canvasSizeH: number;
 	canvasSizeW: number;
@@ -26,6 +29,7 @@ export class PacMan {
 	secondsToEnd: number;
 	interval: any;
 	debug: boolean = false;
+	pointClick: FadingCircle | null= null;
 
 	constructor(
 		appendTo: HTMLElement,
@@ -38,7 +42,7 @@ export class PacMan {
 		eatDot: Function,
 		eatSerie: Function,
 		onEnd: Function,
-		oncountdown: Function
+		oncountdown: Function,
 	) {
 		this.canvasSizeW = canvasSizeW;
 		this.canvasSizeH = canvasSizeH;
@@ -94,7 +98,7 @@ export class PacMan {
 
 		// Crear Pac-Man
 		let pacmanTExture = await PIXI.Assets.load(this.assets['pacman']);
-		const pacman = new MrPacman(this.app, pacmanTExture, board);
+		const pacman = new MrPacman(this.app, pacmanTExture, board, this.movement);
 
 		// Enable interactivity!
 		this.app.stage.eventMode = 'static';
@@ -102,6 +106,15 @@ export class PacMan {
 		this.app.stage.hitArea = this.app.screen;
 		this.app.stage.addEventListener('click', (e) => {
 			console.log('Pointer click', e.global);
+			if (this.pointClick) {
+				this.app.stage.removeChild(this.pointClick);
+				this.pointClick = null;
+			}
+			let tile = board.getTileFromPixel(e.global);
+			if (!tile) return;
+			let color = tile.isWall() ? 0xEF35C7 : 0xFFFFFF;
+			this.pointClick = new FadingCircle(e.global.x, e.global.y, board.tileSize / 4, color);
+			this.app.stage.addChild(this.pointClick);
 			pacman.newClickPosition(e.global);
 		});
 

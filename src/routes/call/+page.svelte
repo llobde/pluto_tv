@@ -2,6 +2,7 @@
 	import logo from '$lib/assets/pluto_tv_logo.svg?raw';
 	import { onMount } from 'svelte';
 	import { animate, stagger, transform, spring } from 'motion';
+	import video from '$lib/assets/videos/PlutoTV_Logo_Animation_SP_NEW_TAGLINE_9x16.mp4';
 	import s1 from '$lib/assets/pluto/series_names/Alaska_2.jpg';
 	import s2 from '$lib/assets/pluto/series_names/Avatar_2.jpg';
 	import s3 from '$lib/assets/pluto/series_names/Bob_2.jpg';
@@ -62,90 +63,91 @@
 
 	onMount(() => {
 		console.log('mounted');
-		let logo = document.getElementsByTagName('svg');
-		let transformer = transform([0, 1], [0, 1]);
+		// let logo = document.getElementsByTagName('svg');
+		// let transformer = transform([0, 1], [0, 1]);
 		if (logo.length > 0) {
 			let svg = logo[0];
-			// console.log(svg);
-			// import { tweened } from 'svelte/motion';
-			// import { cubicOut } from 'svelte/easing';
-
-			// const x = tweened(0, {
-			// 	duration: 400,
-			// 	easing: cubicOut
-			// });
-
-			// x.subscribe(value => {
-			// 	svg.style.transform = `translateX(${value}px)`;
-			// });
-
-			// x.set(100); // Move the SVG 100px to the right
-			let seq: any[] = [
-				[
-					'#logo',
-					{
-						scale: [1, 0]
-					},
-					{
-						duration: 1,
-						ease: 'easeInOut',
-						delay: 3
-					}
-				],
-				[
-					'.circle',
-					{
-						scale: [0, 25]
-					},
-					{
-						duration: 2,
-						ease: 'easeInOut',
-						delay: stagger(0.5),
-						at: 3
-					}
-				],
-				[
-					'.serie',
-					{
-						opacity: [0, 1],
-						// left: [0, 50],
-						transform: 'translateX(100px)'
-					},
-					{
-						duration: 0.8,
-						ease: 'easeInOut',
-						delay: stagger(5)
-					}
-				]
-			];
-
-			animate(seq, {
-				repeat: Infinity,
-				repeatType: 'reverse',
-				repeatDelay: 1,
-				// type: spring,
-				stiffness: 300,
-				onUpdate: (values: any) => {
-					// console.log(values);
-				},
-				onanimationend: () => {
-					console.log('end');
-				}
-			});
 		}
+		let seq: any[] = [
+			// [
+			// 	'#logo',
+			// 	{
+			// 		scale: [1, 0]
+			// 	},
+			// 	{
+			// 		duration: 1,
+			// 		ease: 'easeInOut',
+			// 		delay: 3
+			// 	}
+			// ],
+			[
+				'.circle',
+				{
+					scale: [0, 25]
+				},
+				{
+					duration: 2,
+					ease: 'easeInOut',
+					delay: stagger(1),
+					at: 3
+				}
+			],
+			[
+				'.serie',
+				{
+					opacity: [0, 1],
+					// left: [0, 50],
+					transform: 'translateX(100px)'
+				},
+				{
+					duration: 0.8,
+					ease: 'easeInOut',
+					delay: stagger(5)
+				}
+			]
+		];
+
+		animate(seq, {
+			repeat: Infinity,
+			repeatType: 'reverse',
+			repeatDelay: 1,
+			// type: spring,
+			stiffness: 300,
+			onUpdate: (values: any) => {
+				// console.log(values);
+			},
+			onanimationend: () => {
+				console.log('end');
+			},
+			onanimationstart: () => {
+				console.log('start');
+			},
+			onended: () => {
+				console.log('ended');
+			},
+			onAnimationRepeat: () => {
+				console.log('repeat');
+			}
+		});
 	});
 </script>
 
-<div class="absolute left-0 top-0 h-screen w-screen overflow-hidden">
+<div class="absolute top-0 left-0 h-screen w-screen overflow-hidden">
 	<div id="logo" class="flex h-full w-full items-center justify-center">
-		{@html logo}
+		<!-- {@html logo} -->
+		<video src={video} muted autoplay>
+			<track kind="captions" />
+		</video>
 	</div>
+</div>
+
+<div class="absolute top-0 left-0 h-screen w-screen overflow-hidden">
 	<div
 		id="yellow"
-		class="circle absolute left-1/2 top-1/2 h-[100px] w-[100px] rounded-full bg-[#fff200]"
+		class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-[#fff200]"
 	></div>
-	<div class="circle absolute left-1/2 top-1/2 h-[100px] w-[100px] rounded-full bg-black"></div>
-	<div class="series absolute left-0 top-0 flex h-screen w-screen items-center justify-center">
+	<div class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-black"></div>
+	<div class="series absolute top-0 left-0 flex h-screen w-screen items-center justify-center">
 		<img class="serie absolute" src={s1} alt="Alaska" />
 		<img class="serie absolute" src={s2} alt="Avatar" />
 		<img class="serie absolute" src={s3} alt="Bob" />

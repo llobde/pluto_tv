@@ -3,17 +3,30 @@ import { PacmanBoard, Tile } from '../scene/board';
 import { MovementController } from '../controller/movement_controller';
 import { ClickMovementController } from '../controller/click_movement_controller';
 
+export enum MOVEMENT_TYPE {
+	KEYBOARD,
+	CLICK,
+	JOYCON
+}
+
 export class MrPacman extends PIXI.Sprite {
 	app: PIXI.Application;
 	board: PacmanBoard;
+	mrPacmanMovement: MOVEMENT_TYPE;
 	movementController: MovementController | ClickMovementController;
 	reduceRadiusFactor: number;
 	initialTile!: Tile;
 
-	constructor(app: PIXI.Application, texture: PIXI.Texture, board: PacmanBoard) {
+	constructor(
+		app: PIXI.Application,
+		texture: PIXI.Texture,
+		board: PacmanBoard,
+		mrPacmanMovement: MOVEMENT_TYPE
+	) {
 		super(texture);
 		this.app = app;
 		this.board = board;
+		this.mrPacmanMovement = mrPacmanMovement;
 		this.zIndex = 100;
 		this.reduceRadiusFactor = board.tileSize * 0.1;
 		this.width =
@@ -25,6 +38,19 @@ export class MrPacman extends PIXI.Sprite {
 		let initialPosition = this.initialTile.getPositionInPixels();
 		this.x = initialPosition.x;
 		this.y = initialPosition.y;
+		switch (mrPacmanMovement) {
+			case MOVEMENT_TYPE.KEYBOARD:
+				this.movementController = new MovementController(board, board.pacmanInitialPosition);
+				break;
+			case MOVEMENT_TYPE.CLICK:
+				this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
+				break;
+			case MOVEMENT_TYPE.JOYCON:
+				break;
+			default:
+				this.movementController = new MovementController(board, board.pacmanInitialPosition);
+				break;
+		}
 		// this.movementController = new MovementController(board, board.pacmanInitialPosition	);
 		this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
 		this.app.stage.addChild(this);

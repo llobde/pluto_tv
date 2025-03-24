@@ -3,7 +3,7 @@
 	import Spacer from './Spacer.svelte';
 
 	export let users: Users;
-	export let showMax: number = 5;
+	export let showMax: number = 3;
 </script>
 
 <div class="mx-auto w-full overflow-hidden rounded-md shadow-md">
