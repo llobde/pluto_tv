@@ -64,10 +64,13 @@ export class PacMan {
 			const j = Math.floor(Math.random() * (i + 1));
 			[keys[i], keys[j]] = [keys[j], keys[i]];
 		}
-		const shuffledAssets = keys.reduce((result, key) => {
-			result[key] = this.assets[key];
-			return result;
-		}, {} as { [key: string]: string });
+		const shuffledAssets = keys.reduce(
+			(result, key) => {
+				result[key] = this.assets[key];
+				return result;
+			},
+			{} as { [key: string]: string }
+		);
 		this.assets = shuffledAssets;
 	}
 
@@ -92,6 +95,15 @@ export class PacMan {
 		// Crear Pac-Man
 		let pacmanTExture = await PIXI.Assets.load(this.assets['pacman']);
 		const pacman = new MrPacman(this.app, pacmanTExture, board);
+
+		// Enable interactivity!
+		this.app.stage.eventMode = 'static';
+		// Make sure the whole canvas area is interactive, not just the circle.
+		this.app.stage.hitArea = this.app.screen;
+		this.app.stage.addEventListener('click', (e) => {
+			console.log('Pointer click', e.global);
+			pacman.newClickPosition(e.global);
+		});
 
 		// Crear Fantasmas
 		const ghosts = new Ghosts(this.app, board, pacman, this.numGhosts, this.series, () => {
@@ -126,7 +138,7 @@ export class PacMan {
 		if (!this.debug) {
 			this.secondsToEnd--;
 			this.onCountdown();
-			console.log(`Time left: ${this.secondsToEnd} seconds`);
+			// console.log(`Time left: ${this.secondsToEnd} seconds`);
 			if (this.secondsToEnd <= 0) {
 				console.log('Time is up!');
 				this.endGame();

@@ -4,14 +4,14 @@ export class MovementController {
 	// Movement logic
 	private velocity = { x: 0, y: 0 };
 	private lerpFactor = 0.1;
-	private speed = 5;
+	speed = 5;
 	private prevDirection: Direction = { x: 0, y: 0 };
 	private direction: Direction = { x: 0, y: 0 };
 	inTile!: Tile;
 	private targetTile!: Tile;
 	position!: { x: number; y: number };
 	private targetPosition!: { x: number; y: number };
-	private board: PacmanBoard;
+	board: PacmanBoard;
 	private bufferChangePosition = false;
 
 	constructor(board: PacmanBoard, startTile: Tile) {
@@ -19,6 +19,24 @@ export class MovementController {
 		console.log('Pac man start tile', startTile);
 		this.setInTile(startTile);
 		this.setTargetTile(startTile);
+		this.startEventListeners();
+		let firstDirection = this.getRandomDirection();
+		this.direction = firstDirection;
+		this.prevDirection = firstDirection;
+	}
+
+	private getRandomDirection(): Direction {
+		const directions = [Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT];
+		const validDirections = directions.filter((direction) => {
+			const nextTile = this.board.getAdjacentTileInDirection(this.inTile, direction);
+			return nextTile && !nextTile.isWall();
+		});
+		if (validDirections.length === 0) return { x: 0, y: 0 };
+		const randomIndex = Math.floor(Math.random() * validDirections.length);
+		return validDirections[randomIndex];
+	}
+
+	startEventListeners() {
 		window.addEventListener('keydown', this.onKeyDown.bind(this));
 	}
 

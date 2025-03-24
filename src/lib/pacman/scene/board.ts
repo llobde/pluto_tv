@@ -248,6 +248,8 @@ export class PacmanBoard {
 		return inTile;
 	}
 
+	
+
 	getTileFromPixel(position: { x: number; y: number }): Tile | null {
 		const tileX = Math.floor(position.x / this.tileSize);
 		const tileY = Math.floor(position.y / this.tileSize);

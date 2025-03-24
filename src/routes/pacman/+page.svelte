@@ -125,7 +125,7 @@
 				goto('/finish');
 			},
 			() => {
-				console.log('Oncount down');
+				// console.log('Oncount down');
 				secondsLeft--;
 			}
 		);
