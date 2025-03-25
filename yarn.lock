@@ -1402,6 +1402,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ahrs@npm:^1.3.2":
+  version: 1.3.3
+  resolution: "ahrs@npm:1.3.3"
+  checksum: 10c0/69c26396263a3f32210fde1332e36cea383cb18c86dd2e9d8dbe0b4de8592ec9c367c10095a998266c593ee3f245b4f432621e61afc5bfd799f173f5e076dc0a
+  languageName: node
+  linkType: hard
+
 "ajv@npm:^6.12.4":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
@@ -3259,6 +3266,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"joy-con-webhid@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "joy-con-webhid@npm:0.7.0"
+  dependencies:
+    ahrs: "npm:^1.3.2"
+  checksum: 10c0/30a91193471356e791e4be80beca8bcf6531bd7bffb696e041c3dd8694a112be601eba90d832f36edb2a317fcb8b1757936e4b991b2f4ac735c46b92cb85b6a9
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.0 || ^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -4095,6 +4111,7 @@ __metadata:
     eslint-config-prettier: "npm:^10.0.1"
     eslint-plugin-svelte: "npm:^2.46.1"
     globals: "npm:^15.14.0"
+    joy-con-webhid: "npm:^0.7.0"
     lodash: "npm:^4.17.21"
     lottie-web: "npm:^5.12.2"
     ml5: "npm:^1.2.1"

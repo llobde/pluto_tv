@@ -149,9 +149,9 @@ export class PacmanBoard {
 	app: PIXI.Application;
 	maze: Tile[][] = [];
 	walls: Wall[];
-	wallFillColor: number = 0xffd900; //0x0073ff; //0xffd900;
+	wallFillColor: number = 0xfff200; //0x0073ff; //0xffd900;
 	wallStrokeWidth: number = 4;
-	wallStrokeColor: number = 0xffd900; //0x0073ff;
+	wallStrokeColor: number = 0xfff200; //0x0073ff;
 	cols!: number;
 	rows!: number;
 	pacmanInitialPosition: Tile;
@@ -167,12 +167,15 @@ export class PacmanBoard {
 		width: number = 800,
 		height: number = 600,
 		numGhosts: number = 4,
-		tileSize: number = 100
+		tileSize: number = 100,
+		wallColor: number = 0x0000ff,
 	) {
 		this.app = app;
 		this.tileSize = tileSize;
 		this.width = width;
 		this.height = height;
+		this.wallFillColor = wallColor;
+		this.wallStrokeColor = wallColor;
 		this.numghosts = numGhosts;
 		this.walls = [];
 		this.maze = this.generateSymmetricalPacmanMaze();
@@ -248,7 +251,7 @@ export class PacmanBoard {
 		return inTile;
 	}
 
-	
+
 
 	getTileFromPixel(position: { x: number; y: number }): Tile | null {
 		const tileX = Math.floor(position.x / this.tileSize);

@@ -28,8 +28,9 @@ export class PacMan {
 	gameSeconds: number = 30;
 	secondsToEnd: number;
 	interval: any;
+	wallColor = 0xffffff;
 	debug: boolean = false;
-	pointClick: FadingCircle | null= null;
+	pointClick: FadingCircle | null = null;
 
 	constructor(
 		appendTo: HTMLElement,
@@ -78,6 +79,10 @@ export class PacMan {
 		this.assets = shuffledAssets;
 	}
 
+	start() {
+		this.app.ticker.start();
+	}
+
 	async init() {
 		console.log('PacMan init');
 		await this.app.init({
@@ -86,6 +91,7 @@ export class PacMan {
 			backgroundColor: 0x000000
 		});
 		this.appendTo.appendChild(this.app.canvas);
+		this.app.ticker.stop();
 
 		// Crear Laberinto (paredes)
 		const board = new PacmanBoard(
@@ -93,7 +99,8 @@ export class PacMan {
 			this.canvasSizeW,
 			this.canvasSizeH,
 			this.numGhosts,
-			this.tileSize
+			this.tileSize,
+			this.wallColor,
 		);
 
 		// Crear Pac-Man

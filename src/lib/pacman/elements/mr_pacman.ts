@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { PacmanBoard, Tile } from '../scene/board';
 import { MovementController } from '../controller/movement_controller';
 import { ClickMovementController } from '../controller/click_movement_controller';
+import { JoyMovementController } from '../controller/joy_movement_controller';
 
 export enum MOVEMENT_TYPE {
 	KEYBOARD,
@@ -13,7 +14,7 @@ export class MrPacman extends PIXI.Sprite {
 	app: PIXI.Application;
 	board: PacmanBoard;
 	mrPacmanMovement: MOVEMENT_TYPE;
-	movementController: MovementController | ClickMovementController;
+	movementController: MovementController | ClickMovementController | JoyMovementController;
 	reduceRadiusFactor: number;
 	initialTile!: Tile;
 
@@ -52,7 +53,8 @@ export class MrPacman extends PIXI.Sprite {
 				break;
 		}
 		// this.movementController = new MovementController(board, board.pacmanInitialPosition	);
-		this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
+		// this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
+		this.movementController = new JoyMovementController(board, board.pacmanInitialPosition);
 		this.app.stage.addChild(this);
 	}
 

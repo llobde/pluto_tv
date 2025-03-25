@@ -39,6 +39,7 @@
 	"packageManager": "yarn@4.6.0",
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.12",
+		"joy-con-webhid": "^0.7.0",
 		"lodash": "^4.17.21",
 		"lottie-web": "^5.12.2",
 		"ml5": "^1.2.1",

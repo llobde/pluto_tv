@@ -45,19 +45,27 @@
 	import blue from '$lib/assets/game/ghosts/toGame/blue.png';
 	import jersey from '$lib/assets/game/ghosts/toGame/jersey.png';
 	import gandia from '$lib/assets/game/ghosts/toGame/gandia.png';
-	import cherif from '$lib/assets/game/ghosts/toGame/cherif.png';
 	import carly from '$lib/assets/game/ghosts/toGame/carly.png';
 	import v from '$lib/assets/game/ghosts/toGame/v.png';
 	import alaska from '$lib/assets/game/ghosts/toGame/alaska.png';
 	import p from '$lib/assets/game/ghosts/toGame/p.png';
 	import conan from '$lib/assets/game/ghosts/toGame/conan.png';
+	import { GamePadController } from '$lib/pacman/controller/game_pad_controllet';
 	const totalSeconds = 60;
-	let tileSize: number = 100;
+	let tileSize: number = 50;
 	let gameSize: number;
 	let heightSize: number;
 	let widthSize: number;
 	let refactorHeight: number = 0;
 	let secondsLeft: number = 60;
+	let started: boolean = false;
+	let game: any;
+	let gamePadController: GamePadController = new GamePadController();
+	let play = () => {
+		console.log('Continue');
+		started = true;
+		game.start();
+	};
 
 	onMount(async () => {
 		gameSize = canvasSize();
@@ -74,7 +82,7 @@
 			addTo.id = 'game';
 			document.body.appendChild(addTo);
 		}
-		let pacManGame = new pacmanGame.PacMan(
+		game = new pacmanGame.PacMan(
 			addTo,
 			widthSize,
 			heightSize,
@@ -103,7 +111,6 @@
 				blue,
 				jersey,
 				gandia,
-				cherif,
 				carly,
 				v,
 				alaska,
@@ -129,7 +136,7 @@
 				secondsLeft--;
 			}
 		);
-		await pacManGame.init();
+		await game.init();
 	});
 
 	function canvasSize() {
@@ -138,16 +145,28 @@
 	}
 </script>
 
-<!-- <section class="pointer-events-none fixed inset-0 z-50">
-	<Counter max={6} />
-</section> -->
-<div class="pointer-events-none fixed h-screen w-screen">
-	<div
-		class="flex h-[150px] w-[150px] items-center justify-center rounded-full bg-[#fff200] bg-opacity-50 text-black m-20"
-	>
-		<h1 class="text-8xl font-bold">{secondsLeft}</h1>
+{#if !started}
+	<div class="play fixed flex h-screen w-screen flex-col items-center justify-center">
+		<button class="font-boldtext-black rounded-full bg-[#fff200] p-7 text-4xl" on:click={play}
+			>EMPEZAR</button
+		>
 	</div>
-</div>
+{/if}
+{#if started}
+	<div class="pointer-events-none fixed h-screen w-screen">
+		<div
+			class="bg-opacity-50 m-20 flex h-[150px] w-[150px] items-center justify-center rounded-full bg-[#fff200] text-black"
+		>
+			<h1 class="text-8xl font-bold">{secondsLeft}</h1>
+		</div>
+	</div>
+{/if}
 <div class="flex h-screen flex-col items-center justify-center">
 	<section id="game" class="w-[{widthSize}px] h-[{heightSize}px]"></section>
 </div>
+
+<style>
+	.play {
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+</style>
