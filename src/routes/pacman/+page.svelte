@@ -50,9 +50,8 @@
 	import alaska from '$lib/assets/game/ghosts/toGame/alaska.png';
 	import p from '$lib/assets/game/ghosts/toGame/p.png';
 	import conan from '$lib/assets/game/ghosts/toGame/conan.png';
-	import { GamePadController } from '$lib/pacman/controller/game_pad_controllet';
 	const totalSeconds = 60;
-	let tileSize: number = 50;
+	let tileSize: number = 100;
 	let gameSize: number;
 	let heightSize: number;
 	let widthSize: number;
@@ -60,7 +59,6 @@
 	let secondsLeft: number = 60;
 	let started: boolean = false;
 	let game: any;
-	let gamePadController: GamePadController = new GamePadController();
 	let play = () => {
 		console.log('Continue');
 		started = true;
