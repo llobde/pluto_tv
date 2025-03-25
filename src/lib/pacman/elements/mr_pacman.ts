@@ -47,14 +47,12 @@ export class MrPacman extends PIXI.Sprite {
 				this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
 				break;
 			case MOVEMENT_TYPE.JOYCON:
+				this.movementController = new JoyMovementController(board, board.pacmanInitialPosition);
 				break;
 			default:
 				this.movementController = new MovementController(board, board.pacmanInitialPosition);
 				break;
 		}
-		// this.movementController = new MovementController(board, board.pacmanInitialPosition	);
-		// this.movementController = new ClickMovementController(board, board.pacmanInitialPosition);
-		this.movementController = new JoyMovementController(board, board.pacmanInitialPosition);
 		this.app.stage.addChild(this);
 	}
 
@@ -77,6 +75,10 @@ export class MrPacman extends PIXI.Sprite {
 			this.y = newPosition.y;
 		} else if (this.movementController instanceof MovementController) {
 			let newPosition = this.movementController.move(delta);
+			this.x = newPosition.x;
+			this.y = newPosition.y;
+		} else if (this.movementController instanceof JoyMovementController) {
+			let newPosition = this.movementController.move(delta, { x: this.x, y: this.y });
 			this.x = newPosition.x;
 			this.y = newPosition.y;
 		}
