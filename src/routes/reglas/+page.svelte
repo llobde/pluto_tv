@@ -34,12 +34,11 @@
 			<Spacer height="lg" vertical={false} />
 			<p class="text-4xl">Consigue el mayor número de puntos en 30 segundos</p>
 		</li>
-		<li class="fx-element flex items-center justify-start">
-			<!-- <img src={dot} alt="" class="w-[40px]" /> -->
+		<!-- <li class="fx-element flex items-center justify-start">
 			<Circle />
 			<Spacer height="lg" vertical={false} />
 			<p class="text-4xl">Usa las teclas de flecha para mover el logo de Pluto TV por el laberinto</p>
-		</li>
+		</li> -->
 		<li class="fx-element flex items-center justify-start">
 			<!-- <img src={dot} alt="" class="w-[40px]" /> -->
 			<Circle />

@@ -57,7 +57,7 @@
 	let widthSize: number;
 	let refactorHeight: number = 0;
 	let secondsLeft: number = 60;
-	let started: boolean = false;
+	let started: boolean = true;
 	let game: any;
 	let play = () => {
 		console.log('Continue');
@@ -135,6 +135,7 @@
 			}
 		);
 		await game.init();
+		game.start();
 	});
 
 	function canvasSize() {
@@ -143,13 +144,13 @@
 	}
 </script>
 
-{#if !started}
+<!-- {#if !started}
 	<div class="play fixed flex h-screen w-screen flex-col items-center justify-center">
 		<button class="font-boldtext-black rounded-full bg-[#fff200] p-7 text-4xl" on:click={play}
 			>EMPEZAR</button
 		>
 	</div>
-{/if}
+{/if} -->
 {#if started}
 	<div class="pointer-events-none fixed h-screen w-screen">
 		<div

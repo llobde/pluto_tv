@@ -38,7 +38,7 @@
 	});
 </script>
 
-<Section showTitle={false} firstColor="#fff200" backgroundColor="#fff200" justify="justify-between">
+<Section showTitle={false} firstColor="#fff200" backgroundColor="#fff200" justify="justify-between" showFooter={false}>
 	<Spacer height="lg" />
 	<FitText text="¡Puedes recoger tu premio en la salida!" textColor={"text-black"} haveEffect={true}/>
 	<Spacer height="lg" />
