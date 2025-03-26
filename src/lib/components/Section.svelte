@@ -29,7 +29,7 @@
 		{#if showFooter}
 			<div class="flex h-1/3 w-full items-center justify-center bg-[{secondColor}]">
 				<div class="">
-					<!-- <Logo height={'h-full'} width={'w-2/3'} isBlack={true} /> -->
+					<Logo height={'h-full'} width={'w-2/3'} isBlack={true} />
 				</div>
 			</div>
 		{/if}

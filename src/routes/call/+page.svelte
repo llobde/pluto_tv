@@ -16,13 +16,12 @@
 	import s11 from '$lib/assets/pluto/series_names/Midsomer_2.jpg';
 	import s12 from '$lib/assets/pluto/series_names/Ninja_2.jpg';
 	import s13 from '$lib/assets/pluto/series_names/Park_2.jpg';
-	import s14 from '$lib/assets/pluto/series_names/Perros_2.jpg';
-	import s15 from '$lib/assets/pluto/series_names/Poirot_2.jpg';
 	import s16 from '$lib/assets/pluto/series_names/Sakura_2.jpg';
 	import s17 from '$lib/assets/pluto/series_names/Trek_2.jpg';
 	import s18 from '$lib/assets/pluto/series_names/Vivir_2.jpg';
 	import s19 from '$lib/assets/pluto/series_names/Who_2.jpg';
 	import s20 from '$lib/assets/pluto/series_names/Yu_2.jpg';
+	import { goto } from '$app/navigation';
 
 	let series: string[] = [
 		s1,
@@ -38,8 +37,6 @@
 		s11,
 		s12,
 		s13,
-		s14,
-		s15,
 		s16,
 		s17,
 		s18,
@@ -59,6 +56,10 @@
 
 	let fiveSeries = () => {
 		return series.slice(0, 5);
+	};
+
+	let toGame = () => {
+		goto('/');
 	};
 
 	onMount(() => {
@@ -141,15 +142,15 @@
 	</div>
 </div>
 
-<div class="absolute top-0 left-0 h-screen w-screen overflow-hidden">
-	<div
+<div class="absolute top-0 left-0 h-screen w-screen overflow-hidden" on:click={toGame}>
+	<!-- <div
 		id="yellow"
 		class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-[#fff200]"
 	></div>
-	<div class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-black"></div>
-	<div class="series absolute top-0 left-0 flex h-screen w-screen items-center justify-center">
-		<img class="serie absolute" src={s1} alt="Alaska" />
-		<img class="serie absolute" src={s2} alt="Avatar" />
-		<img class="serie absolute" src={s3} alt="Bob" />
+	<div class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-black"></div> -->
+	<div class="series absolute top-0 left-[-10%] flex h-screen w-screen items-center justify-center">
+		{#each series as serie}
+			<img class="serie absolute" src={serie} alt={serie} />
+		{/each}
 	</div>
 </div>

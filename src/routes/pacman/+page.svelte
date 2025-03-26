@@ -50,8 +50,8 @@
 	import alaska from '$lib/assets/game/ghosts/toGame/alaska.png';
 	import p from '$lib/assets/game/ghosts/toGame/p.png';
 	import conan from '$lib/assets/game/ghosts/toGame/conan.png';
-	const totalSeconds = 60;
-	let tileSize: number = 100;
+	const totalSeconds = 30;
+	let tileSize: number = 80;
 	let gameSize: number;
 	let heightSize: number;
 	let widthSize: number;
@@ -104,7 +104,6 @@
 				withc,
 				ende,
 				gear,
-				who,
 				trek,
 				blue,
 				jersey,
@@ -113,7 +112,8 @@
 				v,
 				alaska,
 				p,
-				conan
+				conan,
+				who
 			},
 			() => {
 				searchState.user.points += 10;
@@ -135,7 +135,6 @@
 			}
 		);
 		await game.init();
-		game.start();
 	});
 
 	function canvasSize() {

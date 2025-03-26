@@ -91,7 +91,7 @@ export class PacMan {
 			backgroundColor: 0x000000
 		});
 		this.appendTo.appendChild(this.app.canvas);
-		this.app.ticker.stop();
+		// this.app.ticker.stop();
 
 		// Crear Laberinto (paredes)
 		const board = new PacmanBoard(

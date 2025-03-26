@@ -1,10 +1,3 @@
-@import 'tailwindcss';
-/* @import url('./keyboard.css'); */
-/* @import '../node_modules/simple-keyboard/build/css/index.css' */
-
-/**
- * Custom Simple Keyboard CSS
- */
 .hg-theme-default {
     background-color: #ececec;
     border-radius: 5px;
@@ -184,9 +177,4 @@ li.hg-candidate-box-list-item:active {
 
 .hg-candidate-box-btn-active {
     color: #444
-}
-
-.hg-theme-default .hg-button span,
-.hg-theme-default .hg-button span svg {
-    color: black;
 }

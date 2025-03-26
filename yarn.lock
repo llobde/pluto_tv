@@ -4121,6 +4121,7 @@ __metadata:
     prettier: "npm:^3.4.2"
     prettier-plugin-svelte: "npm:^3.3.3"
     prettier-plugin-tailwindcss: "npm:^0.6.11"
+    simple-keyboard: "npm:^3.8.44"
     svelte: "npm:^5.0.0"
     svelte-check: "npm:^4.0.0"
     tailwindcss: "npm:^4.0.0"
@@ -4618,6 +4619,13 @@ __metadata:
   version: 4.1.0
   resolution: "signal-exit@npm:4.1.0"
   checksum: 10c0/41602dce540e46d599edba9d9860193398d135f7ff72cab629db5171516cfae628d21e7bfccde1bbfdf11c48726bc2a6d1a8fb8701125852fbfda7cf19c6aa83
+  languageName: node
+  linkType: hard
+
+"simple-keyboard@npm:^3.8.44":
+  version: 3.8.44
+  resolution: "simple-keyboard@npm:3.8.44"
+  checksum: 10c0/74097715bf6fed70a519ddbbb3aa76a6807cf11fdab7463ef75d2ea7cfc5fe866bded79fda050c872d9a259202238399cabca7820a555bbdc9c15891886e7f78
   languageName: node
   linkType: hard
 

@@ -6,7 +6,7 @@
 	import Spacer from '$lib/components/Spacer.svelte';
 	import { Users } from '$lib/front/users.js';
 	import { searchState } from '$lib/states/state.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { animate, stagger } from 'motion';
 
 	let { data } = $props();
@@ -15,7 +15,18 @@
 	users.fromServer(data.props.json);
 	console.log(users);
 	searchState.users = users;
+	let timeout: NodeJS.Timeout;
+
+	// 120000
+	function resetTimeout() {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			window.location.href = '/call';
+		}, 30000);
+	}
+
 	onMount(() => {
+		resetTimeout();
 		animate(
 			'.fx-element',
 			{
@@ -27,14 +38,19 @@
 			}
 		);
 	});
+	onDestroy(() => {
+		clearTimeout(timeout);
+	});
 </script>
 
-<Section>
-	<div class="mx-auto">
-		<Spacer height="lg" />
-		<Button url="/form" text="JUGAR" haveEffect={true} />
-		<Spacer height="lg" />
-		<Ranking {users} />
-		<Spacer height="lg" />
-	</div>
-</Section>
+<div on:click={() => resetTimeout()}>
+	<Section>
+		<div class="mx-auto">
+			<Spacer height="lg" />
+			<Button url="/form" text="JUGAR" haveEffect={true} />
+			<Spacer height="lg" />
+			<Ranking {users} />
+			<Spacer height="lg" />
+		</div>
+	</Section>
+</div>
