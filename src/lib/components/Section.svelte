@@ -14,6 +14,13 @@
 <section
 	class="flex h-screen w-screen flex-col items-center overflow-hidden text-white bg-[{backgroundColor}]"
 >
+	{#if showFooter}
+		<div class="flex h-1/3 w-full items-center justify-center bg-[{secondColor}]">
+			<div class="">
+				<Logo height={'h-full'} width={'w-2/3'} isBlack={true} />
+			</div>
+		</div>
+	{/if}
 	<div class=" flex h-full w-2/3 flex-col justify-center">
 		<div
 			class="flex flex-col items-center {justify} {showFooter
@@ -26,12 +33,5 @@
 			<slot></slot>
 			<Spacer />
 		</div>
-		{#if showFooter}
-			<div class="flex h-1/3 w-full items-center justify-center bg-[{secondColor}]">
-				<div class="">
-					<Logo height={'h-full'} width={'w-2/3'} isBlack={true} />
-				</div>
-			</div>
-		{/if}
 	</div>
 </section>

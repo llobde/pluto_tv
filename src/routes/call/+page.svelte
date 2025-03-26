@@ -66,91 +66,87 @@
 		console.log('mounted');
 		// let logo = document.getElementsByTagName('svg');
 		// let transformer = transform([0, 1], [0, 1]);
-		if (logo.length > 0) {
-			let svg = logo[0];
-		}
-		let seq: any[] = [
-			// [
-			// 	'#logo',
-			// 	{
-			// 		scale: [1, 0]
-			// 	},
-			// 	{
-			// 		duration: 1,
-			// 		ease: 'easeInOut',
-			// 		delay: 3
-			// 	}
-			// ],
-			[
-				'.circle',
-				{
-					scale: [0, 25]
-				},
-				{
-					duration: 2,
-					ease: 'easeInOut',
-					delay: stagger(1),
-					at: 3
-				}
-			],
-			[
-				'.serie',
-				{
-					opacity: [0, 1],
-					// left: [0, 50],
-					transform: 'translateX(100px)'
-				},
-				{
-					duration: 0.8,
-					ease: 'easeInOut',
-					delay: stagger(5)
-				}
-			]
-		];
+		// if (logo.length > 0) {
+		// 	let svg = logo[0];
+		// }
+		// let seq: any[] = [
+		// 	// [
+		// 	// 	'#logo',
+		// 	// 	{
+		// 	// 		scale: [1, 0]
+		// 	// 	},
+		// 	// 	{
+		// 	// 		duration: 1,
+		// 	// 		ease: 'easeInOut',
+		// 	// 		delay: 3
+		// 	// 	}
+		// 	// ],
+		// 	[
+		// 		'.circle',
+		// 		{
+		// 			scale: [0, 25]
+		// 		},
+		// 		{
+		// 			duration: 2,
+		// 			ease: 'easeInOut',
+		// 			delay: stagger(1),
+		// 			at: 3
+		// 		}
+		// 	],
+		// 	[
+		// 		'.serie',
+		// 		{
+		// 			opacity: [0, 1],
+		// 			// left: [0, 50],
+		// 			transform: 'translateX(100px)'
+		// 		},
+		// 		{
+		// 			duration: 0.8,
+		// 			ease: 'easeInOut',
+		// 			delay: stagger(5)
+		// 		}
+		// 	]
+		// ];
 
-		animate(seq, {
-			repeat: Infinity,
-			repeatType: 'reverse',
-			repeatDelay: 1,
-			// type: spring,
-			stiffness: 300,
-			onUpdate: (values: any) => {
-				// console.log(values);
-			},
-			onanimationend: () => {
-				console.log('end');
-			},
-			onanimationstart: () => {
-				console.log('start');
-			},
-			onended: () => {
-				console.log('ended');
-			},
-			onAnimationRepeat: () => {
-				console.log('repeat');
-			}
-		});
+		// 	animate(seq, {
+		// 		repeat: Infinity,
+		// 		repeatType: 'reverse',
+		// 		repeatDelay: 1,
+		// 		// type: spring,
+		// 		stiffness: 300,
+		// 		onUpdate: (values: any) => {
+		// 			// console.log(values);
+		// 		},
+		// 		onanimationend: () => {
+		// 			console.log('end');
+		// 		},
+		// 		onanimationstart: () => {
+		// 			console.log('start');
+		// 		},
+		// 		onended: () => {
+		// 			console.log('ended');
+		// 		},
+		// 		onAnimationRepeat: () => {
+		// 			console.log('repeat');
+		// 		}
+		// 	});
 	});
 </script>
 
 <div class="absolute top-0 left-0 h-screen w-screen overflow-hidden">
 	<div id="logo" class="flex h-full w-full items-center justify-center">
 		<!-- {@html logo} -->
-		<video src={video} muted autoplay>
+		<video src={video} muted autoplay loop>
 			<track kind="captions" />
 		</video>
 	</div>
 </div>
 
-<div class="absolute top-0 left-0 h-screen w-screen overflow-hidden" on:click={toGame}>
-	<!-- <div
-		id="yellow"
-		class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-[#fff200]"
-	></div>
-	<div class="circle absolute top-1/2 left-1/2 h-[100px] w-[100px] rounded-full bg-black"></div> -->
+<!-- <div class="absolute top-0 left-0 h-screen w-screen overflow-hidden" on:click={toGame}>
+	
 	<div class="series absolute top-0 left-[-10%] flex h-screen w-screen items-center justify-center">
 		{#each series as serie}
 			<img class="serie absolute" src={serie} alt={serie} />
 		{/each}
 	</div>
-</div>
+</div> -->
